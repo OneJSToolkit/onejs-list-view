@@ -1,0 +1,50 @@
+@regularFontFamily: "Segoe UI","Segoe UI Web Regular","Segoe UI Symbol","Helvetica Neue","BBAlpha Sans","S60 Sans",Arial,sans-serif;
+@lightFontFamily: "Segoe UI Light","Segoe UI Web Light","Segoe UI Web Regular","Segoe UI","Segoe UI Symbol","HelveticaNeue-Light","Helvetica Neue",Arial,sans-serif;
+
+@od-appcolor: #094AB2;
+
+@color-neutralLight: #ccc;
+@color-neutralLighter: #ddd;
+
+@color-themePrimary: #fac;
+@color-neutralTertiary: #acf;
+@color-white: #fff;
+
+
+// Common OneDrive Type sizes
+.od-font-large {
+    font-size: 20px; // TODO put the real value here
+}
+
+.od-font-regular {
+    font-size: 12px; // TODO put the real value here
+}
+
+.ms-Icon {
+    // TODO do stuff here
+}
+
+
+// Component variables
+@SetHeaderHeight: 80px;
+@DetailHeaderHeight: 30px;
+
+
+// Mixins
+.user-select (@val) {
+    -webkit-touch-callout:  @val;
+    -webkit-user-select:    @val;
+    -khtml-user-select:     @val;
+    -moz-user-select:       @val;
+    -ms-user-select:        @val;
+    user-select:            @val;
+}
+
+// Override the xxl font and use Segoe UI Web fonts.
+.ms-font-l, .ms-font-xxl {
+    font-family: @lightFontFamily;
+}
+
+.ms-font-s, .ms-font-m {
+    font-family: @regularFontFamily;
+}

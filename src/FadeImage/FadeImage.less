@@ -1,0 +1,16 @@
+.c-FadeImage {
+    display: inline-block;
+
+    img {
+        opacity: 0;
+        overflow: hidden;
+
+        &.isLoaded {
+            transition: opacity .5s linear;
+            opacity: 1;
+
+        }
+    }
+
+
+}
