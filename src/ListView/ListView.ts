@@ -88,7 +88,7 @@ class ListView extends View {
     }
 
     _updateView() {
-        document.title = '' + this._updateAttempts++;
+	this._updateAttempts++;
 
         var layout = this._layout;
         var items = this.viewModel.items;
