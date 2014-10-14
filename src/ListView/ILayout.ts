@@ -1,5 +1,5 @@
-class GridLayout {
+interface ILayout {
 
 }
 
-export = GridLayout;
+export = ILayout;

@@ -1,9 +1,10 @@
 import ViewModel = require('../onejs/ViewModel');
 import List = require('../onejs/List');
 import View = require('../onejs/View');
+import ILayout = require('./ILayout');
 import ItemTile = require('../ItemTile/ItemTile');
 
-class GridLayout {
+class GridLayout implements ILayout {
     size = {
         width: 0,
         height: 0
