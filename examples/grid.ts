@@ -9,7 +9,7 @@ else {
 
 function initialize() {
     var app = new AppRoot();
-    var body = document.body;
+    var element = document.getElementById('content');
 
     // Wire up dispose on unload.
     window.addEventListener('unload', function() {
@@ -21,6 +21,6 @@ function initialize() {
         app.resize();
     });
 
-    body.appendChild(app.render());
+    element.appendChild(app.render());
     app.activate();
 }
