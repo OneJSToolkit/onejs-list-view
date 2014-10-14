@@ -3,7 +3,7 @@ import List = require('../onejs/List');
 import GridLayout = require('./GridLayout');
 
 class ListViewModel extends ViewModel {
-	viewportClass = 'listview-viewport';
+    viewportClass = 'listview-viewport';
     layout = new GridLayout();
     items = new List();
 }
