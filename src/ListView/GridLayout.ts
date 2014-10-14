@@ -41,6 +41,8 @@ class GridLayout implements ILayout {
         this.rows = [];
     }
 
+    // TODO - create constructor that takes the child control type
+
     update(items: List, viewport) {
         // TODO: We should only rebuild the layout if an item has changed or the viewport width has changed.
 
