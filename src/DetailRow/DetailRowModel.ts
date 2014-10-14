@@ -1,9 +1,7 @@
 import ViewModel = require('../onejs/ViewModel');
 import Selection = require('../onejs/Selection');
-import ItemHelper = require('../Utilities/ItemHelper');
 
 class DetailRowModel extends ViewModel {
-	ItemHelper = ItemHelper;
 
     parentValues = [
         'selection'
@@ -23,9 +21,6 @@ class DetailRowModel extends ViewModel {
         return addZero(d.getMonth() + 1) + "/" + addZero(d.getDate()) + "/" + d.getFullYear();
     }
 
-    formatSharing(sharingString) {
-    	return 'Just me';
-    }
 
 }
 
