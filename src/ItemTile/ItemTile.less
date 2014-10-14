@@ -1,46 +1,45 @@
 @import (reference) '../Common';
 
 .ItemTile {
-	position: absolute;
-	overflow: hidden;
-	top: 0;
-	bottom: 1px;
-	left: 0;
-	right: 1px;
-	border: 1px solid white;
-	margin: -1px;
-	background: #EAEAEA;
-	.user-select(none);
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    bottom: 1px;
+    left: 0;
+    right: 1px;
+    border: 1px solid white;
+    margin: -1px;
+    background: #EAEAEA;
+    .user-select(none);
 }
 
 .ItemTile.isSelected .ItemTile-rowCheck {
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	border: 3px solid @color-themePrimary;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border: 3px solid @color-themePrimary;
 
-	&:before {
-		content: '';
-		display: block;
-		position: absolute;
-		right: 0;
-		top: 0;
-		width: 0;
-		height: 0;
-		border-style: solid;
-		border-width: 0 40px 40px 0;
-		border-color: transparent @color-themePrimary transparent transparent;
-	}
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 40px 40px 0;
+        border-color: transparent @color-themePrimary transparent transparent;
+    }
 
-	&:after {
-        .ms-Icon;
+    &:after {
         content: '\e041';
         color: @color-white;
         font-size: 12px;
-        position: absolute; 
+        position: absolute;
         right: 5px;
         top: 5px;
-	}
+    }
 }
