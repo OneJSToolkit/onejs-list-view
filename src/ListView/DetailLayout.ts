@@ -1,5 +1,5 @@
 import GridLayout = require('./GridLayout');
-import DetailRow = require('../DetailRow/DetailRow');
+import DetailRow = require('./DetailRow');
 
 class DetailLayout extends GridLayout {
 
