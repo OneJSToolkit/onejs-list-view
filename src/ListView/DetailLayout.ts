@@ -6,8 +6,8 @@ class DetailLayout extends GridLayout {
     columns: string[];
 
     constructor(columns: string[]) {
-	super();
-	this.columns = columns;
+        super();
+        this.columns = columns;
     }
 
     getControlType(item) {
@@ -16,7 +16,7 @@ class DetailLayout extends GridLayout {
 
     getItemSize(item) {
 
-        return {       	
+        return {
             width: 999999,
             height: 30
         };
