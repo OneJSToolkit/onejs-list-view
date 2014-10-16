@@ -9,7 +9,7 @@ fi
 git checkout gh-pages
 git merge origin/master
 gulp examples
-mv examples-compiled examples-published
-git add examples-published
+git add examples-compiled
 git commit -m "Updating examples."
+
 echo "Done. Run 'git push origin gh-pages'."
