@@ -51,7 +51,7 @@ gulp.task('copy-deps', ['clean'], function() {
 gulp.task('tsc-preprocess', ['copy-deps'], function() {
     var lessFilter = filter('**/*.less');
 
-    return gulp.src(['node_modules/onejs-compiler/src/**/*', 'node_modules/onejs/src/**/*', 'src/**/*', 'spec/**/*'])
+    return gulp.src(['node_modules/onejs-compiler/src/**/*', 'node_modules/onejs/src/**/*', 'src/**/*'])
         .pipe(lessFilter)
         .pipe(less())
         .pipe(cssMinify())
@@ -63,7 +63,11 @@ gulp.task('tsc-preprocess', ['copy-deps'], function() {
         .pipe(gulp.dest(paths.tempPath + '/ts'));
 });
 
-gulp.task('tsc', ['tsc-preprocess'], function() {
+gulp.task('spec-preprocess', ['copy-deps'], function() {
+    return gulp.src(['spec/**/*']).pipe(gulp.dest(paths.tempPath + '/ts/spec'));
+});
+
+gulp.task('tsc', ['tsc-preprocess', 'spec-preprocess'], function() {
     return gulp.src(paths.tempPath + '/ts/**/*.ts')
         .pipe(tsc({
             module: 'amd'

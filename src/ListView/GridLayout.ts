@@ -1,8 +1,9 @@
-import ViewModel = require('../onejs/ViewModel');
+import ILayout = require('./ILayout');
+import ItemGrouping = require('./ItemGrouping');
+import ItemTile = require('../ItemTile/ItemTile');
 import List = require('../onejs/List');
 import View = require('../onejs/View');
-import ILayout = require('./ILayout');
-import ItemTile = require('../ItemTile/ItemTile');
+import ViewModel = require('../onejs/ViewModel');
 
 class GridLayout implements ILayout {
     size = {
@@ -21,7 +22,11 @@ class GridLayout implements ILayout {
 
     _cellsByKey = {};
 
-    getControlType(item): any {
+    groupItems(items: List): List {
+        return new List([new ItemGrouping(null, items)]);
+    }
+
+    getControlType(item) {
         return ItemTile;
     }
 
@@ -38,12 +43,28 @@ class GridLayout implements ILayout {
             height: 0
         }
         this.viewport = null;
+	console.log("Resetting");
         this.rows = [];
     }
 
     // TODO - create constructor that takes the child control type
 
-    update(items: List, viewport) {
+    _allItems(itemGroups: List, callback: (item: any) => any) {
+
+	var count = itemGroups.getCount();
+	for(var i = 0; i < count; i++) {
+	    var itemGroup = itemGroups.getAt(i);
+	    if(itemGroup.header) {
+		callback(itemGroup.header);
+	    }
+	    var itemCount = itemGroup.items.getCount();
+	    for(var j = 0; j < itemCount; j++) {
+		callback(itemGroup.items.getAt(j));
+	    }
+	}
+    }
+
+    update(itemGroups: List, viewport) {
         // TODO: We should only rebuild the layout if an item has changed or the viewport width has changed.
 
         if (!this.viewport || this.viewport.width != viewport.width) {
@@ -56,25 +77,21 @@ class GridLayout implements ILayout {
                 height: 0
             };
 
-            var itemCount = items.getCount();
-            var itemIndex = 0;
             var rowIndex = 0;
             var currentRow;
 
-            while (itemIndex < itemCount) {
+            this._allItems(itemGroups, (item) => {
                 if (!currentRow) {
                     currentRow = this._createRow(rowIndex++);
                 }
 
-                this._addItemToRow(items.getAt(itemIndex), currentRow);
+                this._addItemToRow(item, currentRow);
 
                 if (this._isRowFull(currentRow)) {
                     this._finalizeRow(currentRow);
                     currentRow = null;
                 }
-
-                itemIndex++;
-            }
+            });
 
             this._finalizeRow(currentRow);
         }
@@ -150,6 +167,7 @@ class GridLayout implements ILayout {
                     top: 0,
                     previousRowIndex: -1
                 });
+		console.log(cell);
             } else {
                 // Update previousRowIndex if we are moving to a new row.
                 if (cell.rowIndex != row.rowIndex) {

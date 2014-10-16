@@ -63,13 +63,13 @@ class ListView extends View {
     }
 
     _findElements() {
-        var viewportElement = this._surfaceElement = < HTMLElement > this.element.firstChild;
+        var viewportElement = this._surfaceElement = <HTMLElement> this.element.firstChild;
         var viewModel = this.viewModel;
 
         while (viewportElement &&
             viewportElement !== document.body &&
             viewportElement.className !== viewModel.viewportClass) {
-            viewportElement = < HTMLElement > viewportElement.parentNode;
+            viewportElement = <HTMLElement> viewportElement.parentNode;
 
             if (!viewportElement.style || !viewportElement.tagName) {
                 viewportElement = document.body;
@@ -101,14 +101,15 @@ class ListView extends View {
             this._rowRepeaters = [];
         }
 
-        if (items) {
-            layout.update(items, viewport);
+        var itemGroups = layout.groupItems(items);
+        if (itemGroups) {
+            layout.update(itemGroups, viewport);
 
             this._surfaceElement.style.height = layout.size.height + 'px';
             viewport = this._getViewportSize();
 
             // Re-evaluate layout if viewport changed.
-            layout.update(items, viewport);
+            layout.update(itemGroups, viewport);
 
             this._renderVisibles(layout.rows, viewport);            
         }
@@ -195,7 +196,7 @@ class ListView extends View {
             var repeater = this._rowRepeaters[rowIndex];
 
             if (!repeater) {
-                var repeater = this._rowRepeaters[rowIndex] = < Repeater > this.addChild(new Repeater(), this);
+                var repeater = this._rowRepeaters[rowIndex] = <Repeater> this.addChild(new Repeater(), this);
 
                 repeater.baseClass = 'row';
                 repeater.childViewType = ListViewCell;

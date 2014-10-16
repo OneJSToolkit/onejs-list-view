@@ -1,20 +1,20 @@
 import DetailCell = require('./DetailCell');
-import DetailRowModel = require('./DetailRowModel');
-import DetailRowcss = require('./DetailRow.css');
+import DetailHeaderModel = require('./DetailHeaderModel');
+import DetailHeadercss = require('./DetailHeader.css');
 import DomUtils = require('../onejs/DomUtils');
 import Repeater = require('../onejs/Repeater');
 import View = require('../onejs/View');
 
-DomUtils.loadStyles(DetailRowcss.styles);
+DomUtils.loadStyles(DetailHeadercss.styles);
 
-class DetailRow extends View {
-    viewName = 'DetailRow';
-    viewModelType = DetailRowModel;
+class DetailHeader extends View {
+    viewName = 'DetailHeader';
+    viewModelType = DetailHeaderModel;
     repeater: Repeater;
     _surfaceElement: HTMLElement;
 
     onRender() {
-        return (this.element = DomUtils.ce('div', ['class', 'c-DetailRow'], [
+        return (this.element = DomUtils.ce('div', ['class', 'c-DetailHeader'], [
             DomUtils.ce('div', ['class', 'surface'])
         ]));
     }
@@ -27,7 +27,7 @@ class DetailRow extends View {
         var columnNames = _this.columnNames();
         for(var i = 0; i < columnNames.length; i++) {
             cells.push({
-		content: _this.viewModel[columnNames[i]],
+		content: columnNames[i],
 		columnName: columnNames[i]
 	    });
         }
@@ -47,15 +47,6 @@ class DetailRow extends View {
     columnNames() {
         return this.parent.parent.parent.viewModel.layout.columns;
     }
-
-    // TODO - what do do with these bindings?
-    // TODO - constructor should take a reference to the layout
-
-    _bindings = [
-        {
-            "id": "0"
-        }
-    ];
 }
 
-export = DetailRow;
+export = DetailHeader;

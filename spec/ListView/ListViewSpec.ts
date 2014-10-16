@@ -7,8 +7,4 @@ describe('ListView', () => {
     it('runs tests', () => {
 	expect(1).to.equal(1);
     });
-
-    it('also fails', () => {
-	expect(0).to.equal(1);
-    });
 });
