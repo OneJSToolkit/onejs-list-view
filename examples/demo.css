@@ -7,3 +7,19 @@ html, body {
     max-width: 900px;
     margin: 0 auto;
 }
+
+#content-full {
+    margin: 0 20px;
+}
+
+.left {
+    float: left;
+    width: 50%;
+}
+
+.right {
+    float: right;
+    width: 50%;
+}
+
+.clearall { clear: both; }
