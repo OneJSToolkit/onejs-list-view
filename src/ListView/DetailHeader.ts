@@ -12,9 +12,10 @@ class DetailHeader extends View {
     viewModelType = DetailHeaderModel;
     repeater: Repeater;
     _surfaceElement: HTMLElement;
+    className = 'c-DetailHeader';
 
     onRender() {
-        return (this.element = DomUtils.ce('div', ['class', 'c-DetailHeader'], [
+        return (this.element = DomUtils.ce('div', ['class', this._getClassName()], [
             DomUtils.ce('div', ['class', 'surface'])
         ]));
     }
@@ -44,8 +45,23 @@ class DetailHeader extends View {
         _this.repeater.activate();
     }
 
+
+    onViewModelChanged() {
+	var _this = this;
+	if(_this.element) {
+	    _this.element.className = _this._getClassName();
+	}
+    }
+
     columnNames() {
         return this.parent.parent.parent.viewModel.layout.columns;
+    }
+
+    _getClassName() {
+	if(this.viewModel && this.viewModel.threshold && typeof this.viewModel.threshold.name !== 'undefined') {
+	    return this.className + ' ' + this.viewModel.threshold.name;
+	}
+	return this.className;
     }
 }
 

@@ -1,4 +1,5 @@
 import View = require('../onejs/View');
+import List = require('../onejs/List');
 import Async = require('../onejs/Async');
 import Promise = require('../onejs/Promise');
 import Repeater = require('../onejs/Repeater');
@@ -22,9 +23,10 @@ class ListView extends View {
     _rowRepeaters: Repeater[] = [];
     _layout;
     _pageAheadPromise: Promise;
+    _baseClass = 'c-ListView';
 
     onRender() {
-        return (this.element = DomUtils.ce('div', ['class', 'c-ListView'], [
+        return (this.element = DomUtils.ce('div', ['class', this._baseClass], [
             DomUtils.ce('div', ['class', 'surface'])
         ]));
     }

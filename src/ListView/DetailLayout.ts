@@ -3,15 +3,17 @@ import DetailRow = require('./DetailRow');
 import GridLayout = require('./GridLayout');
 import ItemGroupHeader = require('./ItemGroupHeader');
 import ItemGrouping = require('./ItemGrouping');
-import View = require('../onejs/View');
+import Threshold = require('./Threshold');
 import List = require('../onejs/List');
+import View = require('../onejs/View');
+import ViewModel = require('../onejs/ViewModel');
 
 class DetailLayout extends GridLayout {
 
     columns: string[];
 
-    constructor(columns: string[]) {
-        super();
+    constructor(columns: string[], thresholds?: List) {
+        super(null, thresholds);
         this.columns = columns;
     }
 
@@ -26,10 +28,14 @@ class DetailLayout extends GridLayout {
         return DetailRow;
     }
 
-    getItemSize(item) {
+    getCellSize(cell: any, threshold?: Threshold): any {
+	var height = 30;
+	if(threshold && threshold.name === 'small') {
+	    height = this.columns.length * 30;
+	}
         return {
             width: 999999,
-            height: 30
+            height: height
         };
     }
 }

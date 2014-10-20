@@ -1,5 +1,6 @@
 import ILayout = require('./ILayout');
 import ItemGrouping = require('./ItemGrouping');
+import Threshold = require('./Threshold');
 import ItemTile = require('../ItemTile/ItemTile');
 import List = require('../onejs/List');
 import View = require('../onejs/View');
@@ -22,6 +23,15 @@ class GridLayout implements ILayout {
 
     _cellsByKey = {};
 
+    controlType: any;
+
+    thresholds: List;
+
+    constructor(controlType?: any, thresholds?: List) {
+	this.controlType = controlType ? controlType : ItemTile;
+	this.thresholds = thresholds;
+    }
+
     groupItems(items: List): List {
         return new List([new ItemGrouping(null, items)]);
     }
@@ -30,7 +40,7 @@ class GridLayout implements ILayout {
         return ItemTile;
     }
 
-    getItemSize(item) {
+    getCellSize(cell: any, threshold?: Threshold): any {
         return {
             width: 250,
             height: 80
@@ -46,8 +56,6 @@ class GridLayout implements ILayout {
 	console.log("Resetting");
         this.rows = [];
     }
-
-    // TODO - create constructor that takes the child control type
 
     _allItems(itemGroups: List, callback: (item: any) => any) {
 
@@ -77,6 +85,8 @@ class GridLayout implements ILayout {
                 height: 0
             };
 
+	    var matchingThreshold = this._threshold(viewport, this.thresholds);
+
             var rowIndex = 0;
             var currentRow;
 
@@ -85,7 +95,7 @@ class GridLayout implements ILayout {
                     currentRow = this._createRow(rowIndex++);
                 }
 
-                this._addItemToRow(item, currentRow);
+                this._addItemToRow(item, currentRow, matchingThreshold);
 
                 if (this._isRowFull(currentRow)) {
                     this._finalizeRow(currentRow);
@@ -151,11 +161,12 @@ class GridLayout implements ILayout {
         }
     }
 
-    _addItemToRow(item, row) {
+    _addItemToRow(item, row, threshold: Threshold) {
         if (item) {
 
             var cell = this._cellsByKey[item.key];
-            var cellSize = this.getItemSize(item);
+	    var cellSize = this.getCellSize(cell, threshold);
+
 
             if (!cell) {
 
@@ -167,13 +178,17 @@ class GridLayout implements ILayout {
                     top: 0,
                     previousRowIndex: -1
                 });
-		console.log(cell);
             } else {
                 // Update previousRowIndex if we are moving to a new row.
                 if (cell.rowIndex != row.rowIndex) {
                     cell.previousRowIndex = cell.rowIndex;
                 }
             }
+
+	    if(item.threshold !== threshold) {
+		item.threshold = threshold;
+	    }
+
 
             cell.rowIndex = row.rowIndex;
             cell.width = cellSize.width;
@@ -189,6 +204,23 @@ class GridLayout implements ILayout {
             row.width += cell.width;
             row.height = Math.max(row.height, cell.height);
         }
+    }
+
+    _threshold(viewport: any, thresholds: List): Threshold {
+	if(viewport === null || typeof(viewport.width) === 'undefined' || !thresholds) {
+	    return null;
+	}
+
+	var width: number = viewport.width;
+	var count = thresholds.getCount();
+	for(var i = 0; i < count; i++) {
+	    var threshold = thresholds.getAt(i);
+	    if(width >= threshold.minimum && width < threshold.maximum) {
+		return threshold;
+	    }
+	}
+
+	return null;
     }
 }
 

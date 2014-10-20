@@ -3,8 +3,10 @@
 import chai = require('chai');
 var expect = chai.expect;
 
+import ListView = require('./../../ListView/ListView');
+import List = require('./../../onejs/List');
+
+
 describe('ListView', () => {
-    it('runs tests', () => {
-	expect(1).to.equal(1);
-    });
+
 });

@@ -12,9 +12,10 @@ class DetailRow extends View {
     viewModelType = DetailRowModel;
     repeater: Repeater;
     _surfaceElement: HTMLElement;
+    className = 'c-DetailRow';
 
     onRender() {
-        return (this.element = DomUtils.ce('div', ['class', 'c-DetailRow'], [
+        return (this.element = DomUtils.ce('div', ['class', this._getClassName()], [
             DomUtils.ce('div', ['class', 'surface'])
         ]));
     }
@@ -44,8 +45,22 @@ class DetailRow extends View {
         _this.repeater.activate();
     }
 
+    onViewModelChanged() {
+	var _this = this;
+	if(_this.element) {
+	    _this.element.className = _this._getClassName();
+	}
+    }
+
     columnNames() {
         return this.parent.parent.parent.viewModel.layout.columns;
+    }
+
+    _getClassName() {
+	if(this.viewModel && this.viewModel.threshold && typeof this.viewModel.threshold.name !== 'undefined') {
+	    return this.className + ' ' + this.viewModel.threshold.name;
+	}
+	return this.className;
     }
 
     // TODO - what do do with these bindings?
