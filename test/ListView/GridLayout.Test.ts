@@ -76,7 +76,7 @@ describe('GridLayout', () => {
         });
 
 	it('does not fail if either value is null', () => {
-	    var result: List;
+	    var result: Threshold;
             var t = new List([
                 new Threshold(480, 9999, 'full')
 	    ]);
