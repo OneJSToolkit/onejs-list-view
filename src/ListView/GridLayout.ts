@@ -23,12 +23,6 @@ class GridLayout {
 
     _cellsByKey = {};
 
-    controlType: any;
-
-    constructor(controlType?: any) {
-	this.controlType = controlType || ItemTile;
-    }
-
     getControlType(item): any {
         return this.controlType;
     }
@@ -49,25 +43,10 @@ class GridLayout {
         this.rows = [];
     }
 
-    /** _allItems travels itemGroups recursively, and yields item
-      * to callback for each item found
+    update(items: List<any>, viewport) {
       */
     // TODO move to a static on ItemGrouping
     _allItems(itemGroups: List<ItemGrouping>, callback: (item: any) => any) {
-	var count = itemGroups.getCount();
-	for(var i = 0; i < count; i++) {
-	    var itemGroup = itemGroups.getAt(i);
-	    if(itemGroup.header) {
-		callback(itemGroup.header);
-	    }
-	    var itemCount = itemGroup.items.getCount();
-	    for(var j = 0; j < itemCount; j++) {
-		callback(itemGroup.items.getAt(j));
-	    }
-	}
-    }
-
-    update(items: List<any>, viewport) {
         // TODO: We should only rebuild the layout if an item has changed or the viewport width has changed.
 
         if (!this.viewport || this.viewport.width != viewport.width) {
@@ -214,24 +193,7 @@ class GridLayout {
             row.height = Math.max(row.height, cell.height);
         }
     }
-
-    /** Selects threshold from list of thresholds based on viewport dimensions */
     _selectThreshold(viewport: any, thresholds: List<Threshold>): Threshold {
-	if(viewport === null || typeof(viewport.width) === 'undefined' || !thresholds) {
-	    return null;
-	}
-
-	var width: number = viewport.width;
-	var count = thresholds.getCount();
-	for(var i = 0; i < count; i++) {
-	    var threshold = thresholds.getAt(i);
-	    if(width >= threshold.minimum && width < threshold.maximum) {
-		return threshold;
-	    }
-	}
-
-	return null;
-    }
 }
 
 export = GridLayout;
