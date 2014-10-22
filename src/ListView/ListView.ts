@@ -1,5 +1,4 @@
 import View = require('../onejs/View');
-import List = require('../onejs/List');
 import Async = require('../onejs/Async');
 import Promise = require('../onejs/Promise');
 import Repeater = require('../onejs/Repeater');
@@ -23,11 +22,10 @@ class ListView extends View {
     _rowRepeaters: Repeater[] = [];
     _layout;
     _pageAheadPromise: Promise;
-    _baseClass = 'c-ListView';
 
     onRender() {
-        return (this.element = DomUtils.ce('div', ['class', this._baseClass], [
-            DomUtils.ce('div', ['class', 'surface'])
+        return (this.element = DomUtils.ce('div', ['class', 'c-ListView'], [
+            this._surfaceElement = DomUtils.ce('div', ['class', 'surface'])
         ]));
     }
 
@@ -42,7 +40,7 @@ class ListView extends View {
     }
 
     onDeactivate() {
-        this._surfaceElement = this._viewportElement = null;
+        this._viewportElement = null;
     }
 
     onViewModelChanged() {
@@ -65,13 +63,14 @@ class ListView extends View {
     }
 
     _findElements() {
-        var viewportElement = this._surfaceElement = <HTMLElement> this.element.firstChild;
+        var viewportElement = this._surfaceElement;
         var viewModel = this.viewModel;
+        var viewportClass = this.getValue(viewModel.viewportClass, true);
 
         while (viewportElement &&
             viewportElement !== document.body &&
             viewportElement.className !== viewModel.viewportClass) {
-            viewportElement = <HTMLElement> viewportElement.parentNode;
+            viewportElement = < HTMLElement > viewportElement.parentNode;
 
             if (!viewportElement.style || !viewportElement.tagName) {
                 viewportElement = document.body;
@@ -90,28 +89,27 @@ class ListView extends View {
     }
 
     _updateView() {
-	this._updateAttempts++;
+        document.title = '' + this._updateAttempts++;
 
-        var layout = this._layout;
-        var items = this.viewModel.items;
+        var layout = this.getValue('layout', true);
+        var items = this.getValue('items', true);
         var viewport = this._getViewportSize();
 
-        if (this.viewModel.layout != layout || !items) {
-            layout = this._layout = this.viewModel.layout;
-            this.clearChildren();
+        if (layout != this._layout || !items) {
+            this._layout = layout;
             this._surfaceElement.innerHTML = '';
             this._rowRepeaters = [];
+            this.clearChildren();
         }
 
-        var itemGroups = layout.groupItems(items);
-        if (itemGroups) {
-            layout.update(itemGroups, viewport);
+        if (items) {
+            layout.update(items, viewport);
 
             this._surfaceElement.style.height = layout.size.height + 'px';
             viewport = this._getViewportSize();
 
             // Re-evaluate layout if viewport changed.
-            layout.update(itemGroups, viewport);
+            layout.update(items, viewport);
 
             this._renderVisibles(layout.rows, viewport);            
         }
@@ -198,7 +196,7 @@ class ListView extends View {
             var repeater = this._rowRepeaters[rowIndex];
 
             if (!repeater) {
-                var repeater = this._rowRepeaters[rowIndex] = <Repeater> this.addChild(new Repeater(), this);
+                var repeater = this._rowRepeaters[rowIndex] = < Repeater > this.addChild(new Repeater(), this);
 
                 repeater.baseClass = 'row';
                 repeater.childViewType = ListViewCell;

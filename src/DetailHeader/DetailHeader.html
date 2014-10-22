@@ -1,0 +1,17 @@
+<div class="DetailHeader"
+	js-type="DetailHeader" 
+	js-model="DetailHeaderModel"
+	js-css="DetailHeader.css">
+
+	<span 
+		class="DetailHeader-cell DetailHeader-rowCheck"
+		js-bind="className.isAllSelected:selection.isAllSelected"
+		js-userAction="click:selection.toggleAllSelected">
+	</span>
+	
+	<span class="DetailHeader-cell isSorted descended" tabindex="0" style="width: 200px">Name</span>
+	<span class="DetailHeader-cell" tabindex="0" style="width: 150px">Date modified</span>
+	<span class="DetailHeader-cell" tabindex="0" style="width: 150px">Sharing</span>
+	<span class="DetailHeader-cell" tabindex="0" style="width: 150px">Size</span>
+
+</div>

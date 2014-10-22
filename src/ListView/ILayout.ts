@@ -1,9 +1,5 @@
-import List = require('../onejs/List');
-import ItemGrouping = require('./ItemGrouping');
+class GridLayout {
 
-interface ILayout {
-    groupItems(items: List): List;
-    getControlType(item);
 }
 
-export = ILayout;
+export = GridLayout;

@@ -1,0 +1,111 @@
+@import (reference) '../Common';
+
+@DetailRowHeight: 30px;
+
+.DetailRow {
+	overflow: hidden;
+	height: @DetailRowHeight;
+	line-height: @DetailRowHeight;
+	.user-select(none);
+
+	&.isSelected {
+		background: @color-themePrimary;
+		color: @color-white;
+		.DetailRow-rowCheck {
+			background-color: @color-themePrimary;
+			left: -2px;
+
+	     	// Hide the checkbox.
+	     	&:before {
+	        	display: none;
+	        }
+
+	        // But show the mark.
+	        &:after {
+		        content: '\e041';
+		        color: @color-white;
+		        font-size: 12px;
+		        position: absolute; 
+		        left: 4px;
+		        top: 9px;
+	      	}
+		}
+
+		.icon {
+			color: @color-white;
+		}
+	}
+
+	&:not(.isSelected):hover {
+		background: @color-neutralLighter;
+
+		.DetailRow-rowCheck:after {
+			content: '\e041';
+			color: @color-neutralLight;
+			font-size: 12px;
+			position: absolute; 
+			left: 2px;
+			top: 9px;
+		}
+
+	}
+}
+
+.DetailRow-cell {
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: top;
+	padding: 0 10px;
+	outline: none;
+
+	&.icon {
+		padding: 0;
+		height: 30px;
+		position: relative;
+		color: @color-themePrimary;
+
+		&:after {
+		    position: absolute;
+		    
+		    font-size: 18px;
+		    top: 6px;
+		}
+
+	    &.folder:after {
+	    	content: '\e014';
+	    }
+
+	    &.file:after {
+	    	content: '\e182';
+	    }
+	}
+}
+
+.anySelected .DetailRow-rowCheck,
+.DetailRow:hover .DetailRow-rowCheck {
+	opacity: 1;
+}
+
+.DetailRow-rowCheck {
+	display: inline-block;
+	opacity: 0;
+	width: 20px;
+	height: @DetailRowHeight;
+	position: relative;
+	padding: 0 !important;
+	margin: 0 10px;
+
+	// Empty checkbox.
+	&:before {
+		background: white;
+		border: 1px solid @color-neutralTertiary;
+		content: '';
+		display:block;
+	    height: 14px;
+	    left: 0px;
+	    position: absolute;
+	    top: 6px;
+	    width: 14px;
+	}
+}
+

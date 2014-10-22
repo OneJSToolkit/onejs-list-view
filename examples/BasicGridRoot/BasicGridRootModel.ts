@@ -2,12 +2,12 @@ import ViewModel = require('../onejs/ViewModel');
 import List = require('../onejs/List');
 
 class BasicGridRootModel extends ViewModel {
-    items: List;
+    items: List<any>;
 
     constructor() {
         super();
-        this.items = new List();
-        for(var i = 0; i < 100; i++) {
+        this.items = new List<any>();
+        for(var i = 0; i < 8; i++) {
             this.items.push(this.makeObject(i));
         }
     }

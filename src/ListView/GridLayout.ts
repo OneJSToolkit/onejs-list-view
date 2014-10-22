@@ -1,12 +1,9 @@
-import ILayout = require('./ILayout');
-import ItemGrouping = require('./ItemGrouping');
-import Threshold = require('./Threshold');
-import ItemTile = require('../ItemTile/ItemTile');
+import ViewModel = require('../onejs/ViewModel');
 import List = require('../onejs/List');
 import View = require('../onejs/View');
-import ViewModel = require('../onejs/ViewModel');
+import ItemTile = require('../ItemTile/ItemTile');
 
-class GridLayout implements ILayout {
+class GridLayout {
     size = {
         width: 0,
         height: 0
@@ -23,24 +20,11 @@ class GridLayout implements ILayout {
 
     _cellsByKey = {};
 
-    controlType: any;
-
-    thresholds: List;
-
-    constructor(controlType?: any, thresholds?: List) {
-	this.controlType = controlType ? controlType : ItemTile;
-	this.thresholds = thresholds;
-    }
-
-    groupItems(items: List): List {
-        return new List([new ItemGrouping(null, items)]);
-    }
-
-    getControlType(item) {
+    getControlType(item): any {
         return ItemTile;
     }
 
-    getCellSize(cell: any, threshold?: Threshold): any {
+    getItemSize(item) {
         return {
             width: 250,
             height: 80
@@ -53,26 +37,10 @@ class GridLayout implements ILayout {
             height: 0
         }
         this.viewport = null;
-	console.log("Resetting");
         this.rows = [];
     }
 
-    _allItems(itemGroups: List, callback: (item: any) => any) {
-
-	var count = itemGroups.getCount();
-	for(var i = 0; i < count; i++) {
-	    var itemGroup = itemGroups.getAt(i);
-	    if(itemGroup.header) {
-		callback(itemGroup.header);
-	    }
-	    var itemCount = itemGroup.items.getCount();
-	    for(var j = 0; j < itemCount; j++) {
-		callback(itemGroup.items.getAt(j));
-	    }
-	}
-    }
-
-    update(itemGroups: List, viewport) {
+    update(items: List<any>, viewport) {
         // TODO: We should only rebuild the layout if an item has changed or the viewport width has changed.
 
         if (!this.viewport || this.viewport.width != viewport.width) {
@@ -85,25 +53,42 @@ class GridLayout implements ILayout {
                 height: 0
             };
 
-	    var matchingThreshold = this._threshold(viewport, this.thresholds);
-
+            var itemCount = items.getCount();
+            var itemIndex = 0;
             var rowIndex = 0;
             var currentRow;
 
-            this._allItems(itemGroups, (item) => {
+            while (itemIndex < itemCount) {
                 if (!currentRow) {
                     currentRow = this._createRow(rowIndex++);
                 }
 
-                this._addItemToRow(item, currentRow, matchingThreshold);
+                this._addItemToRow(items.getAt(itemIndex), currentRow);
 
                 if (this._isRowFull(currentRow)) {
                     this._finalizeRow(currentRow);
                     currentRow = null;
                 }
-            });
+
+                itemIndex++;
+            }
 
             this._finalizeRow(currentRow);
+            this._logRows();
+        }
+    }
+
+    _logRows() {
+        for (var rowIndex = 0; rowIndex < this.rows.length; rowIndex++) {
+            var rowInfo = 'row ' + rowIndex + ': ';
+            var row = this.rows[rowIndex];
+
+            for (var cellIndex = 0; cellIndex < row.cells.length; cellIndex++) {
+                var cell = row.cells[cellIndex];
+                rowInfo += cell.item.text + ' (' + cell.left + ' ' + cell.width + 'x' + cell.height + ') ';
+            }
+
+            console.log(rowInfo);
         }
     }
 
@@ -136,7 +121,7 @@ class GridLayout implements ILayout {
     }
 
     _finalizeRow(row) {
-        if (row && row.cells.length && row.width > this.viewport.width) {
+        if (row && row.cells.length) {
 
             var scaleRatio = this.viewport.width / row.width;
             var previousCell;
@@ -161,12 +146,11 @@ class GridLayout implements ILayout {
         }
     }
 
-    _addItemToRow(item, row, threshold: Threshold) {
+    _addItemToRow(item, row) {
         if (item) {
 
             var cell = this._cellsByKey[item.key];
-	    var cellSize = this.getCellSize(cell, threshold);
-
+            var cellSize = this.getItemSize(item);
 
             if (!cell) {
 
@@ -185,11 +169,6 @@ class GridLayout implements ILayout {
                 }
             }
 
-	    if(item.threshold !== threshold) {
-		item.threshold = threshold;
-	    }
-
-
             cell.rowIndex = row.rowIndex;
             cell.width = cellSize.width;
             cell.height = cellSize.height;
@@ -199,28 +178,14 @@ class GridLayout implements ILayout {
 
                 cell.left = lastCell.left + lastCell.width;
             }
+            else {
+                cell.left = 0;
+            }
 
             row.cells.push(cell);
             row.width += cell.width;
             row.height = Math.max(row.height, cell.height);
         }
-    }
-
-    _threshold(viewport: any, thresholds: List): Threshold {
-	if(viewport === null || typeof(viewport.width) === 'undefined' || !thresholds) {
-	    return null;
-	}
-
-	var width: number = viewport.width;
-	var count = thresholds.getCount();
-	for(var i = 0; i < count; i++) {
-	    var threshold = thresholds.getAt(i);
-	    if(width >= threshold.minimum && width < threshold.maximum) {
-		return threshold;
-	    }
-	}
-
-	return null;
     }
 }
 
