@@ -10,30 +10,21 @@ import Threshold = require('./../../ListView/Threshold');
 
 
 describe('GridLayout', () => {
-    describe('.groupItems', () => {
-        it('returns a group with no header and all items', () => {
-            var gridLayout = new GridLayout();
-            var list = new List([1,2,3,4,5]);
-            var result: ItemGrouping = gridLayout.groupItems(list).getAt(0);
-            expect(result.header).to.be.null;
-            expect(result.items).to.equal(list);
-        });
-    });
+    // TODO: move to ItemGrouping
+    // describe('._allItems', () => {
+    //     it('calls the callback once for each item', () => {
+    //         var gridLayout = new GridLayout();
+    //         var list = new List<any>([1,2,3,4,5]);
+    //         var result: List<any> = gridLayout.groupItems(list);
+    // 	    var hits = 0;
+    // 	    gridLayout._allItems(result, () => {
+    // 		hits++;
+    // 	    });
+    // 	    expect(hits).to.equal(5);
+    //     });
+    // });
 
-    describe('._allItems', () => {
-        it('calls the callback once for each item', () => {
-            var gridLayout = new GridLayout();
-            var list = new List([1,2,3,4,5]);
-            var result: List = gridLayout.groupItems(list);
-	    var hits = 0;
-	    gridLayout._allItems(result, () => {
-		hits++;
-	    });
-	    expect(hits).to.equal(5);
-        });
-    });
-
-    describe('_threshold', () => {
+    describe('_selectThreshold', () => {
         var l: GridLayout;
         var v: any;
 
@@ -53,7 +44,7 @@ describe('GridLayout', () => {
                 new Threshold(200, 480, 'small'),
                 new Threshold(480, 9999, 'full')
             ]);
-            var result = l._threshold(v, t);
+            var result = l._selectThreshold(v, t);
             expect(result.name).to.equal('mini');
         });
 
@@ -61,7 +52,7 @@ describe('GridLayout', () => {
             var t = new List([
                 new Threshold(480, 9999, 'full')
             ]);
-            var result = l._threshold(v, t);
+            var result = l._selectThreshold(v, t);
             expect(result).to.be.null;
         });
 
@@ -71,7 +62,7 @@ describe('GridLayout', () => {
                 new Threshold(100, 480, 'bar'),
                 new Threshold(101, 9999, 'baz')
             ]);
-            var result = l._threshold(v, t);
+            var result = l._selectThreshold(v, t);
             expect(result.name).to.equal('foo');
         });
 
@@ -81,19 +72,19 @@ describe('GridLayout', () => {
                 new Threshold(480, 9999, 'full')
 	    ]);
 
-	    result = l._threshold(v, null);
+	    result = l._selectThreshold(v, null);
             expect(result).to.be.null;
 
-	    result = l._threshold(null, t);
+	    result = l._selectThreshold(null, t);
             expect(result).to.be.null;
 
-	    result = l._threshold(null, null);
+	    result = l._selectThreshold(null, null);
             expect(result).to.be.null;
 
-	    result = l._threshold({}, t);
+	    result = l._selectThreshold({}, t);
             expect(result).to.be.null;
 
-	    result = l._threshold(v, undefined);
+	    result = l._selectThreshold(v, undefined);
             expect(result).to.be.null;
 	});
     });

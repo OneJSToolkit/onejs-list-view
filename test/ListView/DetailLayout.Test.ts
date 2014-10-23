@@ -14,7 +14,7 @@ describe('DetailLayout', () => {
 	    var b = { x: 2 };
 	    var c = { x: 3 };
 	    var detailLayout = new DetailLayout(['x']);
-	    var list = new List([a,b,c]);
+	    var list = new List<any>([a,b,c]);
 	    var result: ItemGrouping = detailLayout.groupItems(list).getAt(0);
 	    expect(result.header).not.to.be.null;
 	    expect(result.items).to.equal(list);
@@ -27,8 +27,8 @@ describe('DetailLayout', () => {
 	    var b = { x: 2 };
 	    var c = { x: 3 };
 	    var detailLayout = new DetailLayout(['x']);
-	    var list = new List([a,b,c]);
-	    var result: List = detailLayout.groupItems(list);
+	    var list = new List<any>([a,b,c]);
+	    var result: List<ItemGrouping> = detailLayout.groupItems(list);
 	    var hits = 0;
 	    detailLayout._allItems(result, () => {
 		hits++;

@@ -177,9 +177,6 @@ class ListView extends View {
 
     _renderRange(rows, range) {
         for (var rowIndex = range.start; rowIndex >= 0 && rowIndex <= range.end; rowIndex++) {
-
-  //          console.log('rendering row' + rowIndex);
-
             var row = rows[rowIndex];
             var repeater = this._rowRepeaters[rowIndex];
 

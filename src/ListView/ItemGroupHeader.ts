@@ -1,0 +1,4 @@
+class ItemGroupHeader {
+}
+
+export = ItemGroupHeader;

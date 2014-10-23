@@ -2,6 +2,9 @@ import ViewModel = require('../onejs/ViewModel');
 import List = require('../onejs/List');
 import View = require('../onejs/View');
 import ItemTile = require('../ItemTile/ItemTile');
+import ItemGroupHeader = require('./ItemGroupHeader');
+import ItemGrouping = require('./ItemGrouping');
+import Threshold = require('./Threshold');
 
 class GridLayout {
     size = {
@@ -20,8 +23,14 @@ class GridLayout {
 
     _cellsByKey = {};
 
+    controlType: any;
+
+    constructor(controlType?: any) {
+	this.controlType = controlType || ItemTile;
+    }
+
     getControlType(item): any {
-        return ItemTile;
+        return this.controlType;
     }
 
     getItemSize(item) {
@@ -38,6 +47,24 @@ class GridLayout {
         }
         this.viewport = null;
         this.rows = [];
+    }
+
+    /** _allItems travels itemGroups recursively, and yields item
+      * to callback for each item found
+      */
+    // TODO move to a static on ItemGrouping
+    _allItems(itemGroups: List<ItemGrouping>, callback: (item: any) => any) {
+	var count = itemGroups.getCount();
+	for(var i = 0; i < count; i++) {
+	    var itemGroup = itemGroups.getAt(i);
+	    if(itemGroup.header) {
+		callback(itemGroup.header);
+	    }
+	    var itemCount = itemGroup.items.getCount();
+	    for(var j = 0; j < itemCount; j++) {
+		callback(itemGroup.items.getAt(j));
+	    }
+	}
     }
 
     update(items: List<any>, viewport) {
@@ -186,6 +213,24 @@ class GridLayout {
             row.width += cell.width;
             row.height = Math.max(row.height, cell.height);
         }
+    }
+
+    /** Selects threshold from list of thresholds based on viewport dimensions */
+    _selectThreshold(viewport: any, thresholds: List<Threshold>): Threshold {
+	if(viewport === null || typeof(viewport.width) === 'undefined' || !thresholds) {
+	    return null;
+	}
+
+	var width: number = viewport.width;
+	var count = thresholds.getCount();
+	for(var i = 0; i < count; i++) {
+	    var threshold = thresholds.getAt(i);
+	    if(width >= threshold.minimum && width < threshold.maximum) {
+		return threshold;
+	    }
+	}
+
+	return null;
     }
 }
 
