@@ -7,7 +7,7 @@ class BasicGridRootModel extends ViewModel {
     constructor() {
         super();
         this.items = new List<any>();
-        for(var i = 0; i < 8; i++) {
+        for(var i = 0; i < 1000; i++) {
             this.items.push(this.makeObject(i));
         }
     }

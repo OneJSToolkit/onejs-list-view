@@ -133,7 +133,7 @@ class GridLayout {
                 cell.width = Math.ceil(cell.width * scaleRatio);
                 cell.left = previousCell ? previousCell.left + previousCell.width : 0;
                 row.width += cell.width;
-                cell.change();
+
                 previousCell = cell;
             }
 
@@ -154,14 +154,14 @@ class GridLayout {
 
             if (!cell) {
 
-                cell = this._cellsByKey[item.key] = new ViewModel({
+                cell = this._cellsByKey[item.key] = {
                     key: item.key,
                     controlType: this.getControlType(item),
                     item: item,
                     left: 0,
                     top: 0,
                     previousRowIndex: -1
-                });
+                };
             } else {
                 // Update previousRowIndex if we are moving to a new row.
                 if (cell.rowIndex != row.rowIndex) {

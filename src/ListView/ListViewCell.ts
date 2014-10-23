@@ -24,43 +24,42 @@ class ListViewCell extends View {
     }
 
     onViewModelChanged(viewModel, args?) {
-        var cellItem = this.getValue('item');
+        if (this.cellType !== viewModel.controlType) {
+            this.cellType = viewModel.controlType;
 
-        if (cellItem) {
-            if (this.cellType !== cellItem.controlType) {
-                this.cellType = cellItem.controlType;
+            if (this.cellControl) {
+                this.removeChild(this.cellControl);
+            }
 
-                if (this.cellControl) {
-                    this.removeChild(this.cellControl);
-                }
+            this.cellControl = this.addChild(new this.cellType());
+            this.cellControl.setData(viewModel.item);
 
-                this.cellControl = this.addChild(new this.cellType());
-                this.cellControl.setData(cellItem.item);
-
-                if (this.element) {
-                    if (this.element.childNodes.length) {
-                        this.element.replaceChild(this.cellControl.render(), this.element.childNodes[0]);
-                        if (this.state == 2) {
-                            this.cellControl.activate();
-                        }
+            if (this.element) {
+                if (this.element.childNodes.length) {
+                    this.element.replaceChild(this.cellControl.render(), this.element.childNodes[0]);
+                    if (this.state == 2) {
+                        this.cellControl.activate();
                     }
                 }
-            } else {
-                this.cellControl.setData(cellItem.item);
+            }
+        } else {
+            if (this.cellControl) {
+                this.cellControl.setData(viewModel.item);
             }
         }
+
     }
 
     onUpdate() {
-        var item = this.getValue('item');
+        var viewModel = this.viewModel;
 
-        if (this.element && item) {
+        if (this.element) {
             var elStyle = this.element.style;
 
-            elStyle.left = item.left + 'px';
-            elStyle.top = item.top + 'px';
-            elStyle.width = item.width + 'px';
-            elStyle.height = item.height + 'px';
+            elStyle.left = viewModel.left + 'px';
+            elStyle.top = viewModel.top + 'px';
+            elStyle.width = viewModel.width + 'px';
+            elStyle.height = viewModel.height + 'px';
         }
     }
 

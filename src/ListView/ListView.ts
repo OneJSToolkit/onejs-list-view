@@ -32,7 +32,7 @@ class ListView extends View {
     onActivate() {
         this._findElements();
 
-        var scrollElement = this._viewportElement == document.body ? <any> window : this._viewportElement;
+        var scrollElement = this._viewportElement == document.body ? < any > window : this._viewportElement;
 
         this.activeEvents.on(scrollElement, 'scroll', this._onScroll);
         this.activeEvents.on(this._viewportElement, 'touchmove', this._onScroll);
@@ -111,26 +111,13 @@ class ListView extends View {
             // Re-evaluate layout if viewport changed.
             layout.update(items, viewport);
 
-            this._renderVisibles(layout.rows, viewport);            
+            this._renderVisibles(layout.rows, viewport);
         }
     }
 
-    _getViewportSize() {
-        // body has scrolltop, documentElement has correct size.
-        var viewportElement = this._viewportElement;
-        var sizeElement = viewportElement === document.body ? document.documentElement : viewportElement;
-        var rootBounds = this.element.getBoundingClientRect();
-
-        return {
-            width: rootBounds.width || 0,
-            height: (sizeElement.clientHeight - rootBounds.top) || 0,
-            scrollTop: viewportElement.scrollTop || 0
-        };
-    }
-
     _renderVisibles(rows, viewportSize) {
-        var visibleRange = this.visibleRange = this._getVisibleRange(rows);
-        
+        var visibleRange = this.visibleRange = this._getVisibleRange(rows, viewportSize);
+
         //visibleRange.end = Math.min(visibleRange.start + 1, rows.length - 1);
 
         this._renderRange(rows, visibleRange);
@@ -189,8 +176,8 @@ class ListView extends View {
 
     _renderRange(rows, range) {
         for (var rowIndex = range.start; rowIndex >= 0 && rowIndex <= range.end; rowIndex++) {
-            
-            console.log('rendering row' + rowIndex);
+
+  //          console.log('rendering row' + rowIndex);
 
             var row = rows[rowIndex];
             var repeater = this._rowRepeaters[rowIndex];
@@ -199,6 +186,7 @@ class ListView extends View {
                 var repeater = this._rowRepeaters[rowIndex] = < Repeater > this.addChild(new Repeater(), this);
 
                 repeater.baseClass = 'row';
+                repeater.itemName = null;
                 repeater.childViewType = ListViewCell;
                 repeater.setData({
                     items: row.cells
@@ -217,9 +205,28 @@ class ListView extends View {
         }
     }
 
-    _getVisibleRange(rows) {
-        var visibleTop = this._viewportElement.scrollTop;
-        var visibleBottom = visibleTop + this._viewportElement.clientHeight;
+    _getViewportSize() {
+        var viewportSize = {
+            width: window.innerWidth,
+            height: window.innerHeight,
+            scrollTop: this._viewportElement.scrollTop
+        };
+
+        if (this._viewportElement !== document.body) {
+            var bounds = this._viewportElement.getBoundingClientRect();
+
+            viewportSize.width = bounds.width;
+            viewportSize.height = bounds.height;
+        }
+
+        return viewportSize;
+    }
+
+    _getVisibleRange(rows, viewportSize) {
+        var surfaceBounds = this._surfaceElement.getBoundingClientRect();
+        var visibleTop = -surfaceBounds.top;
+        var visibleBottom = visibleTop + viewportSize.height;
+
         var range = {
             start: -1,
             end: -1
@@ -228,8 +235,8 @@ class ListView extends View {
         for (var i = 0; i < rows.length; i++) {
             var row = rows[i];
 
-            if (range.start < 0 && row.top >= visibleTop) {
-                range.start = Math.max(0, i - 1);
+            if (range.start < 0 && (row.top + row.height) >= visibleTop) {
+                range.start = Math.max(0, i);
             }
             if ((i == (rows.length - 1)) || (range.end < 0 && (row.top) > visibleBottom)) {
                 range.end = Math.max(0, i);
