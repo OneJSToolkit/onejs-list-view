@@ -105,6 +105,7 @@ class ListView extends View {
         if (items) {
             layout.update(items, viewport);
 
+            this._surfaceElement.style.width = layout.size.width + 'px';
             this._surfaceElement.style.height = layout.size.height + 'px';
             viewport = this._getViewportSize();
 
@@ -206,8 +207,9 @@ class ListView extends View {
     }
 
     _getViewportSize() {
+        var elementBounds = this.element.getBoundingClientRect();
         var viewportSize = {
-            width: window.innerWidth,
+            width: elementBounds.width,
             height: window.innerHeight,
             scrollTop: this._viewportElement.scrollTop
         };
