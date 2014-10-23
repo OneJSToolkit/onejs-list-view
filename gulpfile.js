@@ -70,6 +70,7 @@ gulp.task('test-preprocess', ['copy-deps'], function() {
 gulp.task('tsc', ['tsc-preprocess', 'test-preprocess'], function() {
     return gulp.src(paths.tempPath + '/ts/**/*.ts')
         .pipe(tsc({
+            target: 'ES5',
             module: 'amd'
         }))
         .pipe(gulp.dest(paths.appPath));
@@ -93,6 +94,7 @@ gulp.task('example-preprocess', ['copy-deps'], function() {
 gulp.task('example-compile', ['example-preprocess'], function() {
     return gulp.src(paths.tempPath + '/example/**/*.ts')
         .pipe(tsc({
+	    target: 'ES5',
             module: 'amd'
         }))
         .pipe(gulp.dest(paths.examplePath));

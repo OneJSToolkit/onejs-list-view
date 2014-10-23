@@ -4,7 +4,7 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "onejs": "^1.1.52",
+    "onejs": "^1.1.57",
     "requirejs": "^2.1.15"
   },
   "devDependencies": {
