@@ -44,8 +44,18 @@ class BasicGridRootModel extends ViewModel {
 
 
             if (child.thumbnail && child.thumbnail.indexOf('http') === 0) {
+                var url = child.thumbnail;
+
+                // Try to find a better thumbnail.
+                if (child.media && child.media.oembed && child.media.oembed.thumbnail_url) {
+                    url = child.media.oembed.thumbnail_url;
+                }
+                else if (child.url.indexOf('i.imgur.com/') > -1) {
+                    url = child.url.substr(0, child.url.lastIndexOf('.')) + 'l' + child.url.substr(child.url.lastIndexOf('.'));
+                }
+
                 item.thumbnail = {
-                    url: child.thumbnail
+                    url: url
                 };
             }
 
