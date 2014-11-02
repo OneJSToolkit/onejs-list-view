@@ -6,5 +6,16 @@
 
     .row, .cell {
         position: absolute;
+        -webkit-animation: animNew .6s cubic-bezier(.2, 0, 0, 1);
+    }
+
+}
+
+@-webkit-keyframes animNew {
+    0% { 
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 }

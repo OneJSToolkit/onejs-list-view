@@ -1,0 +1,1 @@
+export var styles = ".c-BasicGridRoot .viewSurface .ItemTile span{display:block;padding:1em 0 0 1em;font-size:1.5em}";

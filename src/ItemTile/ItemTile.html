@@ -1,7 +1,33 @@
 <div class="ItemTile"
-     js-type="ItemTile"
-     js-model="ItemTileModel"
-     js-css="ItemTile.css">
+	js-type="ItemTile"
+	js-baseType="ItemTileBase"
+	js-model="ItemTileModel" 
+	js-css="ItemTile.css"
+	js-bind="className.isSelected:isSelected"
+	>
 
-  <span js-bind="text: text"></span>
+	<js-if source="thumbnail.url">
+		<fade-image js-init="{ class: 'ItemTile-image' }" js-data="{ url: thumbnail.url }" />
+	</js-if>
+
+	<js-if source="hasNameplate">
+		<div class="ItemTile-namePlate">
+
+		<js-if source="$not(subTitle)">
+			<div class="ItemTile-count" js-bind="text:count"></div>
+			<div class="ItemTile-title" js-bind="text:title"></div>
+		</js-if>
+
+		<js-if source="subTitle">
+			<div class="ItemTile-title" js-bind="text:title"></div>
+		    <div class="ItemTile-count" js-bind="text:count"></div>
+		    <div class="ItemTile-subTitle" js-bind="text:subTitle"></div>
+		</js-if>
+
+		</div>
+	</js-if>
+
+	<js-if source="isSelected">
+		<div class="ItemTile-selectOverlay"></div>
+	</js-if>
 </div>

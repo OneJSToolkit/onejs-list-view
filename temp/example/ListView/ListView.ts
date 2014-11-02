@@ -23,8 +23,6 @@ class ListView extends View {
     _layout;
     _pageAheadPromise: Promise;
 
-    _removeOffscreensImmediately = false;
-
     onRender() {
         return (this.element = DomUtils.ce('div', ['class', 'c-ListView'], [
             this._surfaceElement = DomUtils.ce('div', ['class', 'surface'])
@@ -57,15 +55,10 @@ class ListView extends View {
     }
 
     onResize() {
-        this._removeOffscreensImmediately = true;
         this._asyncUpdateView(120);
     }
 
     _onScroll(eventArgs) {
-        if (this._pageAheadPromise) {
-            this._pageAheadPromise.cancel();
-            this._pageAheadPromise = null;
-        }
         this._asyncUpdateView();
     }
 
@@ -130,19 +123,12 @@ class ListView extends View {
 
         this._renderRange(rows, visibleRange);
         //this._removeRows(rows, visibleRange);
-
-        if (this._removeOffscreensImmediately) {
-            this._removeOffscreensImmediately = false;
-            console.log('Removing immediately: ' + visibleRange.start + '-' + visibleRange.end);
-            this._removeRows(rows, visibleRange);
-        }
-
         this._enqueueOffScreenRenders(rows, visibleRange);
     }
 
     _removeRows(rows, visibleRange) {
-        var start = Math.max(0, visibleRange.start);
-        var end = Math.min(rows.length - 1, visibleRange.end);
+        var start = Math.max(0, visibleRange.start - 130);
+        var end = Math.min(rows.length - 1, visibleRange.end + 130);
 
         console.log('Removing rows outside range ' + start + '-' + end);
 
@@ -170,27 +156,27 @@ class ListView extends View {
             _this._pageAheadPromise.cancel();
         }
 
-        _this._pageAheadPromise = new Promise();
+        var promiseChain = _this._pageAheadPromise = new Promise();
 
         for (var rowIndex = visibleRange.end + 1; rowIndex <= lastIndex; rowIndex++) {
             asyncRenderRow(rowIndex);
         }
 
-        _this._pageAheadPromise = _this._pageAheadPromise
-            .then(function() {
-                _this._removeRows(rows, { start: visibleRange.start - 100, end: visibleRange.end + 100 });
-            }).then(function() {
-                _this._pageAheadPromise = null;
-            });
+        promiseChain.then(function() {
+            _this._removeRows(rows, visibleRange);
+        });
+
+        _this._pageAheadPromise.then(function() {
+            _this._pageAheadPromise = null;
+        });
 
         function asyncRenderRow(index) {
-            _this._pageAheadPromise = _this._pageAheadPromise
-            .wait(0)
-            .then(function() {
-            
-                _this._renderRange(rows, {
-                    start: index,
-                    end: index
+            promiseChain = promiseChain.then(function() {
+                return Promise.timeout(20).then(function() {
+                    _this._renderRange(rows, {
+                        start: index,
+                        end: index
+                    });
                 });
 
             });
@@ -199,6 +185,8 @@ class ListView extends View {
 
     _renderRange(rows, range) {
         for (var rowIndex = range.start; rowIndex >= 0 && rowIndex <= range.end; rowIndex++) {
+
+
             var row = rows[rowIndex];
             var repeater = this._rowRepeaters[rowIndex];
 

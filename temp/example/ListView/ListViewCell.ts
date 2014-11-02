@@ -33,9 +33,10 @@ class ListViewCell extends View {
 
             this.cellControl = this.addChild(new this.cellType());
             this.cellControl.setData(viewModel.item);
-                if (this.element) {
-                    if (this.element.childNodes.length) {
-                        this.element.replaceChild(this.cellControl.render(), this.element.childNodes[0]);
+
+            if (this.element) {
+                if (this.element.childNodes.length) {
+                    this.element.replaceChild(this.cellControl.render(), this.element.childNodes[0]);
                     if (this.state == 2) {
                         this.cellControl.activate();
                     }
@@ -44,19 +45,23 @@ class ListViewCell extends View {
         } else {
             if (this.cellControl) {
                 this.cellControl.setData(viewModel.item);
+            }
         }
+
     }
 
     onUpdate() {
-        var item = this.getValue('item');
+        var viewModel = this.viewModel;
 
-        if (this.element && item) {
+        if (this.element) {
             var elStyle = this.element.style;
 
             elStyle.transform = 'translate(' + viewModel.left + 'px, ' + viewModel.top + 'px)';
 
 //            elStyle.left = viewModel.left + 'px';
   //          elStyle.top = viewModel.top + 'px';
+            elStyle.width = viewModel.width + 'px';
+            elStyle.height = viewModel.height + 'px';
         }
     }
 

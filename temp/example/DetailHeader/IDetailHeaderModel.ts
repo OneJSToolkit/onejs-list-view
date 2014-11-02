@@ -1,0 +1,4 @@
+interface IDetailHeaderModel {
+}
+
+export = IDetailHeaderModel;

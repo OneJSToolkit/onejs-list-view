@@ -2,9 +2,6 @@ import ViewModel = require('../onejs/ViewModel');
 import List = require('../onejs/List');
 import View = require('../onejs/View');
 import ItemTile = require('../ItemTile/ItemTile');
-import ItemGroupHeader = require('./ItemGroupHeader');
-import ItemGrouping = require('./ItemGrouping');
-import Threshold = require('./Threshold');
 
 class GridLayout {
     size = {
@@ -24,13 +21,13 @@ class GridLayout {
     _cellsByKey = {};
 
     getControlType(item): any {
-        return this.controlType;
+        return ItemTile;
     }
 
     getItemSize(item) {
         return {
             width: 250,
-            height: 180
+            height: 80
         }
     }
 
@@ -44,9 +41,6 @@ class GridLayout {
     }
 
     update(items: List<any>, viewport) {
-      */
-    // TODO move to a static on ItemGrouping
-    _allItems(itemGroups: List<ItemGrouping>, callback: (item: any) => any) {
         // TODO: We should only rebuild the layout if an item has changed or the viewport width has changed.
 
         if (!this.viewport || this.viewport.width != viewport.width) {
@@ -127,7 +121,7 @@ class GridLayout {
     }
 
     _finalizeRow(row) {
-        if (row && row.cells.length && row.width > this.viewport.width) {
+        if (row && row.cells.length) {
 
             var scaleRatio = this.viewport.width / row.width;
             var previousCell;
@@ -193,7 +187,6 @@ class GridLayout {
             row.height = Math.max(row.height, cell.height);
         }
     }
-    _selectThreshold(viewport: any, thresholds: List<Threshold>): Threshold {
 }
 
 export = GridLayout;

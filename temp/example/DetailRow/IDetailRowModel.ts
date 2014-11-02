@@ -1,0 +1,4 @@
+interface IDetailRowModel {
+}
+
+export = IDetailRowModel;

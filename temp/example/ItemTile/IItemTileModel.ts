@@ -1,0 +1,4 @@
+interface IItemTileModel {
+}
+
+export = IItemTileModel;
