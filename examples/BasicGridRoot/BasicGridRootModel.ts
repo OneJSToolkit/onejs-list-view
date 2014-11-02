@@ -17,8 +17,10 @@ class BasicGridRootModel extends ViewModel {
     onInitialize() {
         var _this = this;
 
-        DataRequest.send('http://www.reddit.com/r/pics.json?limit=1000')
+        console.log('Requesting data from reddit.');
+        DataRequest.send('http://www.reddit.com/r/aww.json?limit=50')
             .then(function(response) {
+                console.log('Got response.');
                 _this.items.array = _this.parseResponse(response);
                 _this.items.change();
             });

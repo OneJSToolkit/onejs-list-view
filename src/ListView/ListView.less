@@ -1,14 +1,17 @@
-.c-ListView {
+.ListView-surface {
+    position: relative;
+}
 
-    .surface {
-        position: relative;
-    }
+.ListView-row {
+    position: absolute;
+    whitespace: no-wrap;
+    overflow: hidden;
+}
 
-    .row, .cell {
-        position: absolute;
-        -webkit-animation: animNew .6s cubic-bezier(.2, 0, 0, 1);
-    }
-
+.ListView-cell {
+    position: relative;
+    display: inline-block;
+    -webkit-animation: animNew .6s cubic-bezier(.2, 0, 0, 1);
 }
 
 @-webkit-keyframes animNew {

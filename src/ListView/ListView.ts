@@ -14,7 +14,9 @@ var SURFACE_ID_SUFFIX = '-surface';
 class ListView extends View {
     viewName = 'ListView';
     viewModelType = ListViewModel;
-    visibleRange;
+
+    _viewportSize;
+    _visibleRange;
 
     _async = new Async(this);
     _viewportElement: HTMLElement;
@@ -26,8 +28,8 @@ class ListView extends View {
     _removeOffscreensImmediately = false;
 
     onRender() {
-        return (this.element = DomUtils.ce('div', ['class', 'c-ListView'], [
-            this._surfaceElement = DomUtils.ce('div', ['class', 'surface'])
+        return (this.element = DomUtils.ce('div', ['class', 'ListView'], [
+            this._surfaceElement = DomUtils.ce('div', ['class', 'ListView-surface'])
         ]));
     }
 
@@ -57,7 +59,6 @@ class ListView extends View {
     }
 
     onResize() {
-        this._removeOffscreensImmediately = true;
         this._asyncUpdateView(120);
     }
 
@@ -96,11 +97,8 @@ class ListView extends View {
     }
 
     _updateView() {
-        document.title = '' + this._updateAttempts++;
-
         var layout = this.getValue('layout', true);
         var items = this.getValue('items', true);
-        var viewport = this._getViewportSize();
 
         if (layout != this._layout || !items) {
             this._layout = layout;
@@ -110,34 +108,42 @@ class ListView extends View {
         }
 
         if (items) {
-            layout.update(items, viewport);
+            if (this._evaluateViewportSize()) {
+                console.log('viewportSize has changed.')
+                this._removeOffscreensImmediately = true;
+            }
+
+            layout.update(items, this._viewportSize);
+
+            if (this._evaluateViewportSize()) {
+                layout.update(items, this._viewportSize);
+            }
 
             this._surfaceElement.style.width = layout.size.width + 'px';
             this._surfaceElement.style.height = layout.size.height + 'px';
-            viewport = this._getViewportSize();
-
-            // Re-evaluate layout if viewport changed.
-            layout.update(items, viewport);
-
-            this._renderVisibles(layout.rows, viewport);
+            this._renderVisibles(layout.rows, this._viewportSize);
         }
     }
 
     _renderVisibles(rows, viewportSize) {
-        var visibleRange = this.visibleRange = this._getVisibleRange(rows, viewportSize);
+        var visibleRange = this._visibleRange = this._getVisibleRange(rows, viewportSize);
 
-        //visibleRange.end = Math.min(visibleRange.start + 1, rows.length - 1);
+        if (visibleRange.start > -1) {
+            console.log('Rendering visibles: ' + visibleRange.start + '-' + visibleRange.end);
 
-        this._renderRange(rows, visibleRange);
-        //this._removeRows(rows, visibleRange);
+            this._renderRange(rows, visibleRange);
+            //this._removeRows(rows, visibleRange);
 
-        if (this._removeOffscreensImmediately) {
-            this._removeOffscreensImmediately = false;
-            console.log('Removing immediately: ' + visibleRange.start + '-' + visibleRange.end);
-            this._removeRows(rows, visibleRange);
+            if (this._removeOffscreensImmediately) {
+                this._removeOffscreensImmediately = false;
+                console.log('Removing immediately: ' + visibleRange.start + '-' + visibleRange.end);
+                this._removeRows(rows, visibleRange);
+            }
+
+            console.log('Enqueueing off screen rendering.');
+
+            this._enqueueOffScreenRenders(rows, visibleRange);
         }
-
-        this._enqueueOffScreenRenders(rows, visibleRange);
     }
 
     _removeRows(rows, visibleRange) {
@@ -178,22 +184,25 @@ class ListView extends View {
 
         _this._pageAheadPromise = _this._pageAheadPromise
             .then(function() {
-                _this._removeRows(rows, { start: visibleRange.start - 100, end: visibleRange.end + 100 });
+                _this._removeRows(rows, {
+                    start: visibleRange.start - 100,
+                    end: visibleRange.end + 100
+                });
             }).then(function() {
                 _this._pageAheadPromise = null;
             });
 
         function asyncRenderRow(index) {
             _this._pageAheadPromise = _this._pageAheadPromise
-            .wait(0)
-            .then(function() {
-            
-                _this._renderRange(rows, {
-                    start: index,
-                    end: index
-                });
+                .wait(0)
+                .then(function() {
 
-            });
+                    _this._renderRange(rows, {
+                        start: index,
+                        end: index
+                    });
+
+                });
         }
     }
 
@@ -207,7 +216,7 @@ class ListView extends View {
 
                 console.log('rendering row' + rowIndex);
 
-                repeater.baseClass = 'row';
+                repeater.baseClass = 'ListView-row';
                 repeater.itemName = null;
                 repeater.childViewType = ListViewCell;
                 repeater.setData({
@@ -225,6 +234,19 @@ class ListView extends View {
                 });
             }
         }
+    }
+
+    _evaluateViewportSize() {
+        var sizeHashChanged = true;
+        var viewportSize = this._getViewportSize();
+
+        if (this._viewportSize &&
+            this._viewportSize.width === viewportSize.width) {
+            sizeHashChanged = false;
+        } else {
+            this._viewportSize = viewportSize;
+        }
+        return sizeHashChanged;
     }
 
     _getViewportSize() {

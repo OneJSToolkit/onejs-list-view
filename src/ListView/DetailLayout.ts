@@ -1,5 +1,6 @@
 import GridLayout = require('./GridLayout');
 import DetailRow = require('../DetailRow/DetailRow');
+import DetailHeader = require('../DetailHeader/DetailHeader');
 
 class DetailLayout extends GridLayout {
 
@@ -13,6 +14,14 @@ class DetailLayout extends GridLayout {
         return DetailRow;
     }
 
+    getGroupName(item) {
+        return 'default';
+    }
+
+    getHeaderControlType(groupName) {
+        return DetailHeader;
+    }
+
     getItemSize(item) {
 
         return {       	
@@ -23,3 +32,4 @@ class DetailLayout extends GridLayout {
 }
 
 export = DetailLayout;
+

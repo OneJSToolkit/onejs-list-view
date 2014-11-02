@@ -16,7 +16,7 @@ class ListViewCell extends View {
     onRender() {
         var children = this.cellControl ? [ this.cellControl.render() ] : null;
 
-        this.element = DomUtils.ce('div', ['class', 'cell'], children);
+        this.element = DomUtils.ce('div', ['class', 'ListView-cell'], children);
 
         this.update();
 
@@ -53,7 +53,7 @@ class ListViewCell extends View {
         if (this.element && item) {
             var elStyle = this.element.style;
 
-            elStyle.transform = 'translate(' + viewModel.left + 'px, ' + viewModel.top + 'px)';
+      //      elStyle.transform = 'translate(' + viewModel.left + 'px, ' + viewModel.top + 'px)';
 
 //            elStyle.left = viewModel.left + 'px';
   //          elStyle.top = viewModel.top + 'px';

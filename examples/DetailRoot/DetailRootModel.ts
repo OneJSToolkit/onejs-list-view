@@ -3,25 +3,25 @@ import List = require('../onejs/List');
 import DetailLayout = require('../ListView/DetailLayout');
 
 class DetailRootModel extends ViewModel {
-    items: List<any>;
+    items: List < any > ;
     layout: DetailLayout;
     columns: string[];
 
     constructor() {
         super();
-	this.columns = ['index', 'text', 'somethingRandom'];
-	this.layout = new DetailLayout(this.columns); 
-        this.items = new List<any>();
-        for(var i = 0; i < 100; i++) {
+        this.columns = ['index', 'text', 'somethingRandom'];
+        this.layout = new DetailLayout(this.columns);
+        this.items = new List < any > ();
+        for (var i = 0; i < 100; i++) {
             this.items.push(this.makeObject(i));
         }
     }
 
     makeObject(i: number): any {
         return {
-	    index: i,
+            index: i,
             text: 'Item ' + i,
-	    somethingRandom: Math.random() * 1000,
+            somethingRandom: Math.random() * 1000,
             key: i
         };
     }

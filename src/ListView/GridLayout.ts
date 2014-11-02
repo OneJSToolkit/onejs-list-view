@@ -34,6 +34,22 @@ class GridLayout {
         }
     }
 
+    getGroupName(item) {
+        return 'default';
+    }
+
+    getHeaderControlType(groupName) {
+        return null;    
+    }
+
+    getHeaderSize(groupName) {
+        return {
+            lineBreak: true,
+            width: 250,
+            height: 180
+        };
+    }   
+
     reset() {
         this.size = {
             width: 0,
