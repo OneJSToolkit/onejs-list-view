@@ -1,29 +1,28 @@
 import ViewModel = require('../onejs/ViewModel');
 import List = require('../onejs/List');
 import DetailLayout = require('../ListView/DetailLayout');
+import RedditDataSource = require('../RedditDataSource/RedditDataSource');
 
 class DetailRootModel extends ViewModel {
-    items: List < any > ;
+    items = new List<any>();
     layout: DetailLayout;
     columns: string[];
 
+    _dataSource = new RedditDataSource();
+
     constructor() {
         super();
-        this.columns = ['index', 'text', 'somethingRandom'];
-        this.layout = new DetailLayout(this.columns);
-        this.items = new List < any > ();
-        for (var i = 0; i < 100; i++) {
-            this.items.push(this.makeObject(i));
-        }
+        this.layout = new DetailLayout();
     }
 
-    makeObject(i: number): any {
-        return {
-            index: i,
-            text: 'Item ' + i,
-            somethingRandom: Math.random() * 1000,
-            key: i
-        };
+    onInitialize() {
+        console.log('Requesting data from reddit.');
+
+        this._dataSource.getItems('aww')
+            .then((list) => {
+                console.log('Received response.');
+                this.setData({ items: list });
+            });
     }
 }
 

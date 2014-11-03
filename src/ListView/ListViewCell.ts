@@ -5,8 +5,8 @@ import ItemTile = require('../ItemTile/ItemTile');
 class ListViewCell extends View {
     viewName = 'ListViewCell';
 
-    cellControl;
-    cellType;
+    viewType;
+    viewInstance;
 
     left = '0';
     top = '0';
@@ -14,7 +14,7 @@ class ListViewCell extends View {
     height = '0';
 
     onRender() {
-        var children = this.cellControl ? [ this.cellControl.render() ] : null;
+        var children = this.viewInstance ? [ this.viewInstance.render() ] : null;
 
         this.element = DomUtils.ce('div', ['class', 'ListView-cell'], children);
 
@@ -24,26 +24,26 @@ class ListViewCell extends View {
     }
 
     onViewModelChanged(viewModel, args?) {
-        if (this.cellType !== viewModel.controlType) {
-            this.cellType = viewModel.controlType;
+        if (this.viewType !== viewModel.viewType) {
+            this.viewType = viewModel.viewType;
 
-            if (this.cellControl) {
-                this.removeChild(this.cellControl);
+            if (this.viewInstance) {
+                this.removeChild(this.viewInstance);
             }
 
-            this.cellControl = this.addChild(new this.cellType());
-            this.cellControl.setData(viewModel.item);
+            this.viewInstance = this.addChild(new this.viewType());
+            this.viewInstance.setData(viewModel.viewData);
                 if (this.element) {
                     if (this.element.childNodes.length) {
-                        this.element.replaceChild(this.cellControl.render(), this.element.childNodes[0]);
+                    this.element.replaceChild(this.viewInstance.render(), this.element.childNodes[0]);
                     if (this.state == 2) {
-                        this.cellControl.activate();
+                        this.viewInstance.activate();
                     }
                 }
             }
         } else {
-            if (this.cellControl) {
-                this.cellControl.setData(viewModel.item);
+            if (this.viewInstance) {
+                this.viewInstance.setData(viewModel.item);
         }
     }
 
@@ -57,6 +57,9 @@ class ListViewCell extends View {
 
 //            elStyle.left = viewModel.left + 'px';
   //          elStyle.top = viewModel.top + 'px';
+
+            this.element.className = 'ListView-cell ' + (viewModel.className || '');
+
         }
     }
 

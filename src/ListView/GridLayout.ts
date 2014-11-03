@@ -1,214 +1,83 @@
-import ViewModel = require('../onejs/ViewModel');
-import List = require('../onejs/List');
-import View = require('../onejs/View');
+import BaseLayout = require('./BaseLayout');
 import ItemTile = require('../ItemTile/ItemTile');
-import ItemGroupHeader = require('./ItemGroupHeader');
+import ICellDefinition = require('./ICellDefinition');
 import ItemGrouping = require('./ItemGrouping');
 import Threshold = require('./Threshold');
 
-class GridLayout {
-    size = {
-        width: 0,
-        height: 0
-    };
+class GridLayout extends BaseLayout {
 
-    rows = [];
+	_sizeStops = [
+		{
+			viewportWidth: 99999,
+			width: 350,
+			height: 200
+		}, {
+			viewportWidth: 770,
+			width: 250,
+			height: 160
+		}, {
+			viewportWidth: 400,
+			className: 'smallForm',
+			width: 99999,
+			height: 180
+		}
+	];
 
-    viewport = {
-        width: 0,
-        height: 0,
-        visibleTop: 0,
-        visibileBottom: 0
-    };
-
-    _cellsByKey = {};
-
-    getControlType(item): any {
-        return this.controlType;
-    }
-
-    getItemSize(item) {
-        return {
-            width: 250,
-            height: 180
-        }
-    }
-
-    getGroupName(item) {
-        return 'default';
-    }
-
-    getHeaderControlType(groupName) {
-        return null;    
-    }
-
-    getHeaderSize(groupName) {
-        return {
-            lineBreak: true,
-            width: 250,
-            height: 180
-        };
-    }   
-
-    reset() {
-        this.size = {
-            width: 0,
-            height: 0
-        }
-        this.viewport = null;
-        this.rows = [];
-    }
-
-    update(items: List<any>, viewport) {
-      */
+	_viewportWidth;
+	_currentSize;
     // TODO move to a static on ItemGrouping
     _allItems(itemGroups: List<ItemGrouping>, callback: (item: any) => any) {
-        // TODO: We should only rebuild the layout if an item has changed or the viewport width has changed.
+	
+    /*
+    getPreItemLayout(item, index): ICellDefinition {
+		// Example of doing grouping line breaks and adding spacing.
+    
+        var layout = null;
 
-        if (!this.viewport || this.viewport.width != viewport.width) {
-            this.reset();
-
-            this.viewport = viewport;
-
-            this.size = {
-                width: viewport.width,
-                height: 0
-            };
-
-            var itemCount = items.getCount();
-            var itemIndex = 0;
-            var rowIndex = 0;
-            var currentRow;
-
-            while (itemIndex < itemCount) {
-                if (!currentRow) {
-                    currentRow = this._createRow(rowIndex++);
-                }
-
-                this._addItemToRow(items.getAt(itemIndex), currentRow);
-
-                if (this._isRowFull(currentRow)) {
-                    this._finalizeRow(currentRow);
-                    currentRow = null;
-                }
-
-                itemIndex++;
-            }
-
-            this._finalizeRow(currentRow);
-            //this._logRows();
-        }
-    }
-
-    _logRows() {
-        for (var rowIndex = 0; rowIndex < this.rows.length; rowIndex++) {
-            var rowInfo = 'row ' + rowIndex + ': ';
-            var row = this.rows[rowIndex];
-
-            for (var cellIndex = 0; cellIndex < row.cells.length; cellIndex++) {
-                var cell = row.cells[cellIndex];
-                rowInfo += cell.item.text + ' (' + cell.left + ' ' + cell.width + 'x' + cell.height + ') ';
-            }
-
-            console.log(rowInfo);
-        }
-    }
-
-    _createRow(rowIndex) {
-        var row = this.rows[rowIndex];
-
-        if (!row) {
-            var previousRow = this.rows[rowIndex - 1];
-
-            row = this.rows[rowIndex] = {
-                key: String(rowIndex),
-                rowIndex: rowIndex,
-                left: 0,
-                top: previousRow ? previousRow.top + previousRow.height : 0,
-                width: 0,
-                height: 0,
-                cells: []
-            };
-        } else {
-            row.cells = [];
-            row.width = 0;
-            row.height = 0;
+        if (item && item.title && item.title.indexOf('a') === -1) {
+        	layout = {
+        		height: 50,
+        		lineBreak: true
+        	};
         }
 
-        return row;
+        return layout;
+    }
+    */
+
+    getItemLayout(item, index): ICellDefinition {
+    	var size = this._getSize(this.viewport.width);
+
+        return {
+    		key: item.key,
+			viewType: ItemTile,
+			viewData: item,
+			className: size.className,
+			width: size.width,
+			height: size.height
+        };
     }
 
-    _isRowFull(row) {
-        return row.width >= this.viewport.width;
-    }
+	_getSize(width) {
+		// Example of returning a tile size relative to viewport size.
 
-    _finalizeRow(row) {
-        if (row && row.cells.length && row.width > this.viewport.width) {
+		if (this._viewportWidth != width) {
+			var sizeStops = this._sizeStops;
+	
+			this._viewportWidth = width;
 
-            var scaleRatio = this.viewport.width / row.width;
-            var previousCell;
+			for (var i = 0; i < sizeStops.length;i++) {
+				this._currentSize = sizeStops[i];
 
-            for (var i = 0; i < row.cells.length; i++) {
-                var cell = row.cells[i];
+				if (sizeStops[i + 1] && sizeStops[i + 1].viewportWidth < width) {
+					break;
+				}
+			}
+		}
 
-                row.width -= cell.width;
-                cell.width = Math.ceil(cell.width * scaleRatio);
-                cell.left = previousCell ? previousCell.left + previousCell.width : 0;
-                row.width += cell.width;
+		return this._currentSize;
+	}
 
-                previousCell = cell;
-            }
-
-            if (previousCell && row.width > this.viewport.width) {
-                previousCell.width -= (row.width - this.viewport.width);
-                row.width = this.viewport.width;
-            }
-
-            this.size.height += row.height;
-        }
-    }
-
-    _addItemToRow(item, row) {
-        if (item) {
-
-            var cell = this._cellsByKey[item.key];
-            var cellSize = this.getItemSize(item);
-
-            if (!cell) {
-
-                cell = this._cellsByKey[item.key] = {
-                    key: item.key,
-                    controlType: this.getControlType(item),
-                    item: item,
-                    left: 0,
-                    top: 0,
-                    previousRowIndex: -1
-                };
-            } else {
-                // Update previousRowIndex if we are moving to a new row.
-                if (cell.rowIndex != row.rowIndex) {
-                    cell.previousRowIndex = cell.rowIndex;
-                }
-            }
-
-            cell.rowIndex = row.rowIndex;
-            cell.width = cellSize.width;
-            cell.height = cellSize.height;
-
-            if (row.cells.length) {
-                var lastCell = row.cells[row.cells.length - 1];
-
-                cell.left = lastCell.left + lastCell.width;
-            }
-            else {
-                cell.left = 0;
-            }
-
-            row.cells.push(cell);
-            row.width += cell.width;
-            row.height = Math.max(row.height, cell.height);
-        }
-    }
     _selectThreshold(viewport: any, thresholds: List<Threshold>): Threshold {
 }
 

@@ -7,9 +7,28 @@ class DetailRowModel extends ViewModel {
         'selection'
     ];
 
-    getIconClass(type) {
-    	return 'DetailRow-cell icon ' + type;
-    }
+    item;
+    columns;
+ 
+	getClass(column) {
+		var className = 'DetailRow-cell ' + column.key;
+
+		return className;
+	}
+
+	getStyle(column) {
+		return 'width: ' + column.width + 'px';
+	}
+
+	getTextValue(column) {
+		var val = '';
+
+		if (this.item && column) {
+			val = this.item[column.key];
+		}
+
+		return val;
+	}
 
 }
 

@@ -4,38 +4,22 @@ class DetailHeaderModel extends ViewModel {
 	parentValues = [
 		'selection'
 	];
+ 
+	getClass(column) {
+		var className = 'DetailHeader-cell ' + column.key;
 
-	columns = [
-		{
-			name: '',
-			type: 'check',
-			width: 100
-		},
-		{
-			name: 'Name',
-			isSorted: true,
-			isAscending: false,
-			width: 100
-		},
-		{
-			name: 'Date modified',
-			isSorted: false,
-			isAscending: false,
-			width: 100
-		},
-		{
-			name: 'Sharing',
-			isSorted: false,
-			isAscending: false,
-			width: 100
-		},
-		{
-			name: 'Size',
-			isSorted: false,
-			isAscending: false,
-			width: 100
+		if (column.isSorted) {
+			className += ' isSorted';
+
+			className += (column.isDescending) ? ' isDescending' : 'isAscending';
 		}
-	];
+
+		return className;
+	}
+
+	getStyle(column) {
+		return 'width: ' + column.width + 'px';
+	}
 }
 
 export = DetailHeaderModel;

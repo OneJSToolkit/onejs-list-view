@@ -109,7 +109,7 @@ class ListView extends View {
 
         if (items) {
             if (this._evaluateViewportSize()) {
-                console.log('viewportSize has changed.')
+                console.log('viewportSize has changed:' + this._viewportSize.width + 'x' + this._viewportSize.height);
                 this._removeOffscreensImmediately = true;
             }
 

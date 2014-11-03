@@ -2,11 +2,16 @@
 
 @DetailRowHeight: 30px;
 
+.ListView-cell.odd .DetailRow {
+	background: #EBF5FF;
+}
+
 .DetailRow {
 	overflow: hidden;
 	height: @DetailRowHeight;
 	line-height: @DetailRowHeight;
 	.user-select(none);
+	white-space: nowrap;
 
 	&.isSelected {
 		background: @color-themePrimary;
@@ -57,6 +62,10 @@
 	vertical-align: top;
 	padding: 0 10px;
 	outline: none;
+
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 
 	&.icon {
 		padding: 0;

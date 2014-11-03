@@ -1,11 +1,16 @@
 @import (reference) '../Common';
 
 .DetailHeader {
-	overflow: hidden;
 	height: @DetailHeaderHeight;
 	line-height: @DetailHeaderHeight;
-	border-bottom: 1px solid @color-neutralLight;
+	border-top: 1px solid @color-neutralLighter;
+	border-bottom: 1px solid @color-neutralLighter;
 	.user-select(none);
+	box-shadow: 0 0 10px -5px rgba(0,0,0,.5);
+	overflow: hidden;
+	white-space: nowrap;
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#FFFFFF),color-stop(50%,#ECECEC),color-stop(51%,#E7E7E7),color-stop(100%,#FFFFFF));
+//	background: #fdfdfd;
 }
 
 .DetailHeader-cell {
@@ -15,19 +20,25 @@
 	padding: 0 10px;
 	outline: none;
 
+	&:hover {
+		background: #f7f7f7;
+		outline: 1px solid @color-neutralLighter;
+	}
+
 	&.isSorted:after {
-		color: @color-neutralTertiary;
+		color: @color-black;
 		font-size: 12px;
-		padding-left: 5px;
+		padding-left: 10px;
+
+		&.isAscending:after {
+			content: '\2191';
+		}
+
+		&.isDescending:after {
+			content: '\2193';
+		}
 	}
 
-	&.ascended:after {
-		content: '\e047';
-	}
-
-	&.descended:after {
-		content: '\e048';
-	}
 }
 
 .DetailHeader-rowCheck {
