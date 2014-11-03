@@ -14,7 +14,7 @@ var size = require('gulp-size');
 var mergeStream = require('merge-stream');
 
 var paths = {
-    tempPath: '.tmp',
+    tempPath: 'tmp',
     appPath: 'app',
     appMinPath: 'app-min',
     examplePath: 'examples-compiled',

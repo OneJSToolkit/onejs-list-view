@@ -1,4 +1,0 @@
-interface IBasicGridRootModel {
-}
-
-export = IBasicGridRootModel;

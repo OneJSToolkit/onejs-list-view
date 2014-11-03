@@ -1,1 +1,0 @@
-export var styles = ".c-ListView .surface{position:relative}.c-ListView .cell,.c-ListView .row{position:absolute;-webkit-animation:animNew .6s cubic-bezier(0.2,0,0,1)}@-webkit-keyframes animNew{0%{opacity:0}100%{opacity:1}}";

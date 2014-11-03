@@ -1,4 +1,0 @@
-interface IDetailRowModel {
-}
-
-export = IDetailRowModel;

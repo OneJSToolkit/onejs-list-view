@@ -1,1 +1,0 @@
-export var styles = ".c-DetailRoot .viewSurface .c-DetailHeader{background:#eee}.c-DetailRoot .viewSurface .c-DetailCell{padding-top:3px;padding-bottom:3px}.c-DetailRoot .viewSurface .index{width:20%}.c-DetailRoot .viewSurface .somethingRandom,.c-DetailRoot .viewSurface .text{width:40%}";

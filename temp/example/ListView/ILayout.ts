@@ -1,5 +1,0 @@
-class GridLayout {
-
-}
-
-export = GridLayout;

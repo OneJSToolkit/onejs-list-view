@@ -1,4 +1,0 @@
-interface IDetailRootModel {
-}
-
-export = IDetailRootModel;
