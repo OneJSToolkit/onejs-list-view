@@ -1,0 +1,36 @@
+<js-view js-type="RealDataRoot" js-model="RealDataRootModel" js-css="RealDataRoot.css">
+  <div class="c-RealDataRoot">
+    <h1>ListView: Real Data Example</h1>
+    <div class="launch">
+      <div class="field">
+        <label>
+          Flickr API key<br />
+          <input type="text" js-bind="value:flickrApiKey" />
+        </label>
+      </div>
+      <div class="field">
+        <label>
+          Search term<br />
+          <input type="text" js-bind="value:searchTerm" />
+        </label>
+      </div>
+      <div class="field">
+        <button js-event="click:search()">Search!</button>
+      </div>
+
+      <div class="field">
+        <label>
+          <input type="checkbox" js-bind="checked:showDetails" />
+          Render details list
+        </label>
+      </div>
+    </div>
+
+    <div class="viewSurface">
+      <js-view
+         js-name="listView"
+         js-type="../ListView/ListView"
+         js-data="{ items: items, layout: layout }"></js-view>
+    </div>
+  </div>
+</js-view>

@@ -1,0 +1,96 @@
+@import (reference) '../../src/Common';
+
+.PhotoTile {
+    display: inline-block;
+    overflow: hidden;
+
+    position: absolute;
+    left: 0px;
+    right: 1px;
+    top: 0px;
+    bottom: 1px;
+
+    background: @color-themePrimary;
+    color: @color-white;
+}
+
+.PhotoTile-image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.smallForm .PhotoTile-namePlate {
+    max-height: 22px;
+}
+
+.PhotoTile-namePlate {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 5px 5px;
+
+    background: @color-themePrimary;
+}
+
+.PhotoTile-namePlate > * {
+    padding: 2px 5px;
+}
+
+.PhotoTile-count {
+    float: right;
+    padding-left: 5px;
+}
+.PhotoTile-title, .PhotoTile-subTitle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.PhotoTile-subTitle {
+    color: rgb(174, 195, 230);
+}
+
+.PhotoTile-count {
+    color: @color-themeLight;
+}
+
+.PhotoTile-selectOverlay {
+    display: none;
+}
+
+.PhotoTile.isSelected .PhotoTile-selectOverlay {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid @color-themeSecondary;
+}
+
+.PhotoTile-selectOverlay:before {
+        display: block;
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 40px 40px 0;
+        border-color: transparent @color-themeSecondary transparent transparent;
+}
+
+.PhotoTile-selectOverlay::after {
+    //.ms-Icon;
+    content: '\e041';
+    color: @color-white;
+    font-size: 12px;
+    position: absolute; 
+    right: 5px;
+    top: 5px;
+}
