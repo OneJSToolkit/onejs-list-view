@@ -19,11 +19,8 @@ class RealDataRootModel extends ViewModel {
         this.showDetails = false;
         this.layout = new PhotoGridLayout();
         this.items = new List<PhotoTileModel>();
-        this.flickrApiKey = '';
+        this.flickrApiKey = 'ac0929e61d7be3a4f742ef5823cd3b7d';
         this.searchTerm = 'apple';
-        for(var i = 0; i < 10; i++) {
-            this.items.push(this.makeObject(i));
-        }
     }
 
     search() {
@@ -52,13 +49,6 @@ class RealDataRootModel extends ViewModel {
             this.layout = new PhotoGridLayout();
         }
         super.change();
-    }
-
-    makeObject(i: number): PhotoTileModel {
-        var x = new PhotoTileModel();
-        x.id = '' + i;
-        x.text = 'Item ' + i;
-        return x;
     }
 }
 
