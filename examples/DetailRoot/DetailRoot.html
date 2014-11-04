@@ -2,7 +2,15 @@
   <div class="c-DetailRoot">
     <h1>ListView: Detail Example</h1>
     <div class="viewSurface">
-      <js-view js-name="listView" js-type="../ListView/ListView" js-data="{ items: items, layout: layout }"></js-view>
+      <js-view
+         js-name="listView"
+         js-type="../ListView/ListView"
+         js-data="{ itemProvider: itemProvider, layout: layout }">
+      </js-view>
     </div>
+
+    <js-if source="itemProvider.isLoadingItems()">
+      <div class="loading">Loading...</div>
+    </js-if>
   </div>
 </js-view>

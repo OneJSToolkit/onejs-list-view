@@ -2,7 +2,11 @@
   <div class="c-BasicGridRoot">
     <h1>ListView: Grid Example</h1>
     <div class="viewSurface">
-    	<list-view js-data="{ items: items }"></list-view>
+      <list-view js-data="{ itemProvider: itemProvider }"></list-view>
     </div>
+
+    <js-if source="itemProvider.isLoadingItems()">
+      <div class="loading">Loading more data, hang on one sec...</div>
+    </js-if>
   </div>
 </js-view>
