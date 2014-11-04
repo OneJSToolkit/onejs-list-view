@@ -1,0 +1,16 @@
+<js-view js-type="LoadingRoot" js-model="LoadingRootModel" js-css="LoadingRoot.css">
+  <div class="c-LoadingRoot">
+    <h1>ListView: Loading Example</h1>
+    <div class="viewSurface">
+      <js-view
+         js-name="listView"
+         js-type="../ListView/ListView"
+         js-data="{ itemProvider: itemProvider, layout: layout }">
+      </js-view>
+    </div>
+
+    <js-if source="itemProvider.isLoadingItems()">
+      <div class="loading">Loading more data, hang on one sec...</div>
+    </js-if>
+  </div>
+</js-view>

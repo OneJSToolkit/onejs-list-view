@@ -1,15 +1,30 @@
-import View = require('../onejs/View');
 import Async = require('../onejs/Async');
+import BaseLayout = require('./BaseLayout');
+import DomUtils = require('../onejs/DomUtils');
+import IItem = require('../onejs/IItem');
+import IItemProvider = require('./IItemProvider');
+import List = require('../onejs/List');
+import ListViewCell = require('./ListViewCell');
+import ListViewCss = require('./ListView.css');
+import ListViewModel = require('./ListViewModel');
 import Promise = require('../onejs/Promise');
 import Repeater = require('../onejs/Repeater');
-import DomUtils = require('../onejs/DomUtils');
-import ListViewModel = require('./ListViewModel');
-import ListViewCss = require('./ListView.css');
-import ListViewCell = require('./ListViewCell');
+import View = require('../onejs/View');
 
 DomUtils.loadStyles(ListViewCss.styles);
 
 var SURFACE_ID_SUFFIX = '-surface';
+
+class RenderResult {
+    constructor(public rowsAboveViewport: number,
+                public rowsInViewport: number,
+                public rowsBelowViewport: number)
+    {}
+
+    renderedToEnd(): boolean {
+        return this.rowsBelowViewport <= 1;
+    }
+}
 
 class ListView extends View {
     viewName = 'ListView';
@@ -76,8 +91,8 @@ class ListView extends View {
         var viewportClass = this.getValue(viewModel.viewportClass, true);
 
         while (viewportElement &&
-            viewportElement !== document.body &&
-            viewportElement.className !== viewModel.viewportClass) {
+               viewportElement !== document.body &&
+               viewportElement.className !== viewModel.viewportClass) {
             viewportElement = < HTMLElement > viewportElement.parentNode;
 
             if (!viewportElement.style || !viewportElement.tagName) {
@@ -97,14 +112,19 @@ class ListView extends View {
     }
 
     _updateView() {
-        var layout = this.getValue('layout', true);
-        var items = this.getValue('items', true);
+        var layout: BaseLayout = this.getValue('layout', true);
+        var items: List<IItem> = this.getValue('items', true);
+        var itemProvider: IItemProvider = this.getValue('itemProvider', true);
 
-        if (layout != this._layout || !items) {
+        if (layout != this._layout || !(items || itemProvider)) {
             this._layout = layout;
             this._surfaceElement.innerHTML = '';
             this._rowRepeaters = [];
             this.clearChildren();
+        }
+
+        if (itemProvider) {
+            items = itemProvider.items;
         }
 
         if (items) {
@@ -121,18 +141,22 @@ class ListView extends View {
 
             this._surfaceElement.style.width = layout.size.width + 'px';
             this._surfaceElement.style.height = layout.size.height + 'px';
-            this._renderVisibles(layout.rows, this._viewportSize);
+            var renderResult = this._renderVisibles(layout.rows,
+                                                    this._viewportSize);
+
+            if (itemProvider && renderResult.renderedToEnd()) {
+                itemProvider.loadNextBatch();
+            }
         }
     }
 
-    _renderVisibles(rows, viewportSize) {
+    _renderVisibles(rows, viewportSize): RenderResult {
         var visibleRange = this._visibleRange = this._getVisibleRange(rows, viewportSize);
 
         if (visibleRange.start > -1) {
             console.log('Rendering visibles: ' + visibleRange.start + '-' + visibleRange.end);
 
             this._renderRange(rows, visibleRange);
-            //this._removeRows(rows, visibleRange);
 
             if (this._removeOffscreensImmediately) {
                 this._removeOffscreensImmediately = false;
@@ -144,6 +168,10 @@ class ListView extends View {
 
             this._enqueueOffScreenRenders(rows, visibleRange);
         }
+
+        return new RenderResult(visibleRange.start,
+                                (visibleRange.end - visibleRange.start) + 1,
+                                rows.length - (visibleRange.end + 1));
     }
 
     _removeRows(rows, visibleRange) {
