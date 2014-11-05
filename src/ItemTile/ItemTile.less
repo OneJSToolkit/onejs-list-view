@@ -10,7 +10,7 @@
     top: 0px;
     bottom: 1px;
 
-    background: @color-themePrimary;
+    background: @color-neutralLighter;
     color: @color-white;
 }
 
@@ -33,7 +33,8 @@
     right: 0;
     padding: 5px 5px;
 
-    background: @color-themePrimary;
+    background: rgba(32,32,32,.8);
+    color: @color-neutralLighter;
 }
 
 .ItemTile-namePlate > * {
@@ -50,12 +51,8 @@
     text-overflow: ellipsis; 
 }
 
-.ItemTile-subTitle {
-    color: rgb(174, 195, 230);
-}
-
-.ItemTile-count {
-    color: @color-themeLight;
+.ItemTile-subTitle, .ItemTile-count  {
+    color: @color-neutralTertiary;
 }
 
 .ItemTile-selectOverlay {

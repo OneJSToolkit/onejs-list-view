@@ -62,25 +62,25 @@ class BaseLayout {
             var itemCount = items.getCount();
             var itemIndex = 0;
             var rowIndex = 0;
+            var item;
+            var previousItem = null;
 
             this._currentRow = null;
-
             this._createCell(this.getHeaderLayout(items.getAt(0)));
 
             for (var i = 0; i < itemCount; i++) {
-                var item = items.getAt(i);
-
+                item = items.getAt(i);
                 this._createCell(this.getPreItemLayout(item, i), item, i);
                 this._createCell(this.getItemLayout(item, i), item, i);
+                previousItem = item;
             }
 
             this._finalizeRow();
-
             this._createCell(this.getFooterLayout());
         }
     }
 
-    _createCell(cellLayout: ICellDefinition, item?: any, index?: number) {
+    _createCell(cellLayout: ICellDefinition, item ? : any, index ? : number) {
         if (cellLayout) {
             if (this._currentRow && (cellLayout.lineBreak || this._isRowFull())) {
                 this._finalizeRow();
@@ -121,28 +121,29 @@ class BaseLayout {
 
     _finalizeRow() {
         var row = this._currentRow;
-        
-        this._currentRow = null;
 
-        if (row && row.cells.length && row.width > this.viewport.width) {
+        if (row) {
+            this._currentRow = null;
 
-            var scaleRatio = this.viewport.width / row.width;
-            var previousCell;
+            if (row.cells.length && row.width > this.viewport.width) {
+                var scaleRatio = this.viewport.width / row.width;
+                var previousCell;
 
-            for (var i = 0; i < row.cells.length; i++) {
-                var cell = row.cells[i];
+                for (var i = 0; i < row.cells.length; i++) {
+                    var cell = row.cells[i];
 
-                row.width -= cell.width;
-                cell.width = Math.ceil(cell.width * scaleRatio);
-                cell.left = previousCell ? previousCell.left + previousCell.width : 0;
-                row.width += cell.width;
+                    row.width -= cell.width;
+                    cell.width = Math.ceil(cell.width * scaleRatio);
+                    cell.left = previousCell ? previousCell.left + previousCell.width : 0;
+                    row.width += cell.width;
 
-                previousCell = cell;
-            }
+                    previousCell = cell;
+                }
 
-            if (previousCell && row.width > this.viewport.width) {
-                previousCell.width -= (row.width - this.viewport.width);
-                row.width = this.viewport.width;
+                if (previousCell && row.width > this.viewport.width) {
+                    previousCell.width -= (row.width - this.viewport.width);
+                    row.width = this.viewport.width;
+                }
             }
 
             this.size.height += row.height;
@@ -164,7 +165,7 @@ class BaseLayout {
             row.cells.push(cell);
 
             row.width += cell.width || 0;
-            row.height = Math.max(row.height, cell.height || 0);            
+            row.height = Math.max(row.height, cell.height || 0);
         }
     }
 

@@ -326,7 +326,7 @@ class ListView extends View {
         styleString += 'width:' + position.width + 'px;';
         styleString += 'height:' + position.height + 'px;';
 
-        styleString += 'transform: translate(' + position.left + 'px, ' + position.top + 'px)';
+        //styleString += 'transform: translate(' + position.left + 'px, ' + position.top + 'px);';
         styleString += 'left:' + position.left + 'px;';
         styleString += 'top:' + position.top + 'px;';
 
