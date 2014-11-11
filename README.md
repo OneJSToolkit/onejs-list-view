@@ -25,7 +25,7 @@ var list = [
     { key: '0', name: 'Joe', age: 22 }, 
     { key: '1', name: 'Jane', age: 28 }];
 
-listView.setData({ list: list});
+listView.setData({ list: list });
 document.body.appendChild(listView.render());
 listView.activate();
 ```
@@ -50,13 +50,52 @@ $('#myButton').click(function() {
 
 In order to customize item cells, you can extend a given layout and provide your own overrides.
 
+The following overrides are available:
+
+#### getHeaderLayout(firstItem): ICellDefinition
+Defines an optional cell layout for the header, which always renders at the top of the list for this layout.
+
+#### getPreItemLayout(item, previousItem, index): ICellDefinition
+Defines an optional cell layout for an entry before the current item. Allows line breaks and grouping headers to be inserted as appropriate.
+
+#### getItemLayout(item, previousItem, index): ICellDefinition
+Defines a given item's cell layout.
+
+Each method returns an optional ICellDefinition implementation, which defines a cell's details:
+
+```typescript
+interface ICellDefinition {
+	key: string;
+	
+	viewType: any;
+	viewData: any;
+
+	width: number;
+	height: number;	
+
+	lineBreak?: boolean;
+}
 ```
-TODO: Example
+
+Example of a custom layout which renders a "MyRowControl" IView implementation.
+
+```
+class MyLayout extends DetailsLayout {
+    getItemLayout(item, previousItem, index): ICellDefinition {
+        return {
+            key: item.key,
+            viewType: MyRowControl,
+            viewData: { item: item },
+            width: 99999,
+            height: (this.viewport.width < 500) ? 60 : 30
+        };
+    }
+}
 ```
 
 ## Selection
 
-A Selection object can be assigned to the list. Item tiles can then access the selection by refering to findValue
+A Selection object can be assigned to the list. Item tiles can then access the selection by refering to findValue.
 
 ```
 TODO: Example.
