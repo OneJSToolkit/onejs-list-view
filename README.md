@@ -1,6 +1,6 @@
 # OneJS ListView
 
-A reusable control for displaying a list of items. Written using the OneJS control framework.
+A virtualized list control for rendering a given set of items, using a generated layout. Works with static data or service powered lists. Built modularly, so that you can bundle only what you need (or include the entire module.)
 
 The ListView is comprised of these concepts:
 
