@@ -2,7 +2,72 @@
 
 A reusable control for displaying a list of items. Written using the OneJS control framework.
 
+The ListView is comprised of these concepts:
+
+* Layout - The definition of where things go
+* List - The collection of items representing the things to render
+* ListProvider - The provider of the list to render, allows for abstraction on changing the list out for sorting and filtering.
+* ListView - The ui control which monitors visual window, renders cells, creates promise chains to render ahead, and removes elements outside of the visual window.
+
+# Including on a page
+
+The ListView is distrubted as a set of AMD modules, a set of CommonJS modules, and a pre-bundled script that can simply be included on the page.
+
+TODO: publish bundle for easy consumption.
+
+# Usage
+
+To render a simple list:
+
+```javascript
+var listView = new ListView();
+var list = [
+    { key: '0', name: 'Joe', age: 22 }, 
+    { key: '1', name: 'Jane', age: 28 }];
+
+listView.setData({ list: list});
+document.body.appendChild(listView.render());
+listView.activate();
+```
+
+## Layouts
+
+The list view by default renders DetailsLayout, but comes pre-bundled with two layouts, DetailsLayout and GridLayout. Switching between them is as providing a new layout! Example:
+
+```javascript
+var detailsLayout = new DetailsLayout();
+var gridLayout = new GridLayout();
+var useDetails = true;
+
+// On clicking a myButton element, we swap out a layout.
+$('#myButton').click(function() {
+    useDetails = !useDetails;
+    listView.setData({ layout: useDetails ? detailsLayout : gridLayout });
+});
+```
+
+## Customizing item cells
+
+In order to customize item cells, you can extend a given layout and provide your own overrides.
+
+```
+TODO: Example
+```
+
+## Selection
+
+A Selection object can be assigned to the list. Item tiles can then access the selection by refering to findValue
+
+```
+TODO: Example.
+```
+
+## Sorting and filtering
+
+## Scrolling to an item
+
 # Development
+
 
 To develop locally, run the following commands:
 
