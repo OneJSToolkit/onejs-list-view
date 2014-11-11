@@ -50,6 +50,22 @@ $('#myButton').click(function() {
 
 In order to customize item cells, you can extend a given layout and provide your own overrides.
 
+Example of a custom layout which renders a "MyRowControl" IView implementation.
+
+```
+class MyLayout extends DetailsLayout {
+    getItemLayout(item, previousItem, index): ICellDefinition {
+        return {
+            key: item.key,
+            viewType: MyRowControl,
+            viewData: { item: item },
+            width: 99999,
+            height: (this.viewport.width < 500) ? 60 : 30
+        };
+    }
+}
+```
+
 The following overrides are available:
 
 #### getHeaderLayout(firstItem): ICellDefinition
@@ -74,22 +90,6 @@ interface ICellDefinition {
 	height: number;	
 
 	lineBreak?: boolean;
-}
-```
-
-Example of a custom layout which renders a "MyRowControl" IView implementation.
-
-```
-class MyLayout extends DetailsLayout {
-    getItemLayout(item, previousItem, index): ICellDefinition {
-        return {
-            key: item.key,
-            viewType: MyRowControl,
-            viewData: { item: item },
-            width: 99999,
-            height: (this.viewport.width < 500) ? 60 : 30
-        };
-    }
 }
 ```
 
