@@ -52,7 +52,7 @@ In order to customize item cells, you can extend a given layout and provide your
 
 Example of a custom layout which renders a "MyRowControl" IView implementation.
 
-```
+```typescript
 class MyLayout extends DetailsLayout {
     getItemLayout(item, previousItem, index): ICellDefinition {
         return {
