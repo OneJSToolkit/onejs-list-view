@@ -1,8 +1,6 @@
 import BaseLayout = require('./BaseLayout');
 import ItemTile = require('../ItemTile/ItemTile');
 import ICellDefinition = require('./ICellDefinition');
-import ItemGrouping = require('./ItemGrouping');
-import Threshold = require('./Threshold');
 
 class GridLayout extends BaseLayout {
 
@@ -25,8 +23,6 @@ class GridLayout extends BaseLayout {
 
     _viewportWidth;
     _currentSize;
-    // TODO move to a static on ItemGrouping
-    _allItems(itemGroups: List<ItemGrouping>, callback: (item: any) => any) {
 
     /*
       getPreItemLayout(item, index): ICellDefinition {
@@ -76,8 +72,6 @@ class GridLayout extends BaseLayout {
 
         return this._currentSize;
     }
-
-    _selectThreshold(viewport: any, thresholds: List<Threshold>): Threshold {
 }
 
 export = GridLayout;

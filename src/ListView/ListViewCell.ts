@@ -44,13 +44,14 @@ class ListViewCell extends View {
         } else {
             if (this.viewInstance) {
                 this.viewInstance.setData(viewModel.item);
+            }
         }
     }
 
     onUpdate() {
-        var item = this.getValue('item');
+        var viewModel = this.viewModel;
 
-        if (this.element && item) {
+        if (this.element) {
             var elStyle = this.element.style;
 
       //      elStyle.transform = 'translate(' + viewModel.left + 'px, ' + viewModel.top + 'px)';
@@ -59,7 +60,8 @@ class ListViewCell extends View {
   //          elStyle.top = viewModel.top + 'px';
 
             this.element.className = 'ListView-cell ' + (viewModel.className || '');
-
+            elStyle.width = viewModel.width + 'px';
+            elStyle.height = viewModel.height + 'px';
         }
     }
 
