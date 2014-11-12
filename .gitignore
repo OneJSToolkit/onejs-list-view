@@ -4,7 +4,6 @@ tmp
 .sass-cache
 bower_components
 test/bower_components
-examples-compiled
 app
 *#*
 app-min
