@@ -33,8 +33,8 @@ class ListViewCell extends View {
 
             this.viewInstance = this.addChild(new this.viewType());
             this.viewInstance.setData(viewModel.viewData);
-                if (this.element) {
-                    if (this.element.childNodes.length) {
+            if (this.element) {
+                if (this.element.childNodes.length) {
                     this.element.replaceChild(this.viewInstance.render(), this.element.childNodes[0]);
                     if (this.state == 2) {
                         this.viewInstance.activate();
@@ -54,10 +54,10 @@ class ListViewCell extends View {
         if (this.element) {
             var elStyle = this.element.style;
 
-      //      elStyle.transform = 'translate(' + viewModel.left + 'px, ' + viewModel.top + 'px)';
+            //      elStyle.transform = 'translate(' + viewModel.left + 'px, ' + viewModel.top + 'px)';
 
-//            elStyle.left = viewModel.left + 'px';
-  //          elStyle.top = viewModel.top + 'px';
+            //            elStyle.left = viewModel.left + 'px';
+            //          elStyle.top = viewModel.top + 'px';
 
             this.element.className = 'ListView-cell ' + (viewModel.className || '');
             elStyle.width = viewModel.width + 'px';

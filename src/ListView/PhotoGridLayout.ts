@@ -9,15 +9,15 @@ class PhotoGridLayout extends GridLayout {
 
     getItemSize(item) {
 
-    	if (item && item.image) {
-    		return item.image;
-    	}
-    else {
-    	return {
-    		width: 200,
-    		height: 200
-    	}
-    }
+        if (item && item.image) {
+            return item.image;
+        }
+        else {
+            return {
+                width: 200,
+                height: 200
+            }
+        }
     }
 }
 

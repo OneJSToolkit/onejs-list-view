@@ -1,18 +1,18 @@
-<div class="DetailRow" 
-	js-type="DetailRow"
-	js-model="DetailRowModel" 
-	js-css="DetailRow.css"
-	js-bind="className.isSelected:selection.isSelected(key)">
+<div class="DetailRow"
+     js-type="DetailRow"
+     js-model="DetailRowModel"
+     js-css="DetailRow.css"
+     js-bind="className.isSelected:selection.isSelected(key)">
 
-	<js-repeat source="columns" iterator="column">
-		<span js-bind="text:getTextValue(column),class:getClass(column),style:getStyle(column)"></span>
-	</js-repeat>
-<!--
-	<span class="DetailRow-cell DetailRow-rowCheck" js-userAction="click:selection.toggle(key)"></span>
-	<span style="width: 20px" js-bind="class:getIconClass(type)"></span>
-	<span class="DetailRow-cell name" style="width: 170px" js-bind="text:title"></span>
-	<span class="DetailRow-cell" style="width: 150px" js-bind="text:subTitle"></span>
-	<span class="DetailRow-cell" style="width: 150px" js-bind="text:sharing"></span>
--->
+  <js-repeat source="columns" iterator="column">
+    <span js-bind="text:getTextValue(column),class:getClass(column),style:getStyle(column)"></span>
+  </js-repeat>
+  <!--
+      <span class="DetailRow-cell DetailRow-rowCheck" js-userAction="click:selection.toggle(key)"></span>
+      <span style="width: 20px" js-bind="class:getIconClass(type)"></span>
+      <span class="DetailRow-cell name" style="width: 170px" js-bind="text:title"></span>
+      <span class="DetailRow-cell" style="width: 150px" js-bind="text:subTitle"></span>
+      <span class="DetailRow-cell" style="width: 150px" js-bind="text:sharing"></span>
+      -->
 
 </div>

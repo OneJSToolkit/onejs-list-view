@@ -1,25 +1,25 @@
 import ViewModel = require('../onejs/ViewModel');
 
 class DetailHeaderModel extends ViewModel {
-	parentValues = [
-		'selection'
-	];
- 
-	getClass(column) {
-		var className = 'DetailHeader-cell ' + column.key;
+    parentValues = [
+        'selection'
+    ];
 
-		if (column.isSorted) {
-			className += ' isSorted';
+    getClass(column) {
+        var className = 'DetailHeader-cell ' + column.key;
 
-			className += (column.isDescending) ? ' isDescending' : 'isAscending';
-		}
+        if (column.isSorted) {
+            className += ' isSorted';
 
-		return className;
-	}
+            className += (column.isDescending) ? ' isDescending' : 'isAscending';
+        }
 
-	getStyle(column) {
-		return 'width: ' + column.width + 'px';
-	}
+        return className;
+    }
+
+    getStyle(column) {
+        return 'width: ' + column.width + 'px';
+    }
 }
 
 export = DetailHeaderModel;

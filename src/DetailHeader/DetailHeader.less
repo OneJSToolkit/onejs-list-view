@@ -1,94 +1,93 @@
 @import (reference) '../Common';
 
 .DetailHeader {
-	height: @DetailHeaderHeight;
-	line-height: @DetailHeaderHeight;
-	border-top: 1px solid @color-neutralLighter;
-	border-bottom: 1px solid @color-neutralLighter;
-	.user-select(none);
-	box-shadow: 0 0 10px -5px rgba(0,0,0,.5);
-	overflow: hidden;
-	white-space: nowrap;
-	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#FFFFFF),color-stop(50%,#ECECEC),color-stop(51%,#E7E7E7),color-stop(100%,#FFFFFF));
-//	background: #fdfdfd;
+    height: @DetailHeaderHeight;
+    line-height: @DetailHeaderHeight;
+    border-top: 1px solid @color-neutralLighter;
+    border-bottom: 1px solid @color-neutralLighter;
+    .user-select(none);
+    box-shadow: 0 0 10px -5px rgba(0,0,0,.5);
+    overflow: hidden;
+    white-space: nowrap;
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#FFFFFF),color-stop(50%,#ECECEC),color-stop(51%,#E7E7E7),color-stop(100%,#FFFFFF));
+    //  background: #fdfdfd;
 }
 
 .DetailHeader-cell {
-	cursor: pointer;
-	display: inline-block;
-	vertical-align: top;
-	padding: 0 10px;
-	outline: none;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    padding: 0 10px;
+    outline: none;
 
-	&:hover {
-		background: #f7f7f7;
-		outline: 1px solid @color-neutralLighter;
-	}
+    &:hover {
+        background: #f7f7f7;
+        outline: 1px solid @color-neutralLighter;
+    }
 
-	&.isSorted:after {
-		color: @color-black;
-		font-size: 12px;
-		padding-left: 10px;
-	}
+    &.isSorted:after {
+        color: @color-black;
+        font-size: 12px;
+        padding-left: 10px;
+    }
 
-	&.isAscending:after {
-		content: '\2191';
-	}
+    &.isAscending:after {
+        content: '\2191';
+    }
 
-	&.isDescending:after {
-		content: '\2193';
-	}
+    &.isDescending:after {
+        content: '\2193';
+    }
 
 }
 
 .DetailHeader-rowCheck {
-	display: inline-block;
-	width: 20px;
-	height: @DetailHeaderHeight;
-	position: relative;
-	padding: 0 !important;
-	margin-left: 10px;
+    display: inline-block;
+    width: 20px;
+    height: @DetailHeaderHeight;
+    position: relative;
+    padding: 0 !important;
+    margin-left: 10px;
 
-	// Empty checkbox.
-	&:before {
-		background: white;
-		border: 1px solid @color-neutralTertiary;
-		content: '';
-		display:block;
-	    height: 14px;
-	    left: 0px;
-	    position: absolute;
-	    top: 6px;
-	    width: 14px;
-	}
+    // Empty checkbox.
+    &:before {
+        background: white;
+        border: 1px solid @color-neutralTertiary;
+        content: '';
+        display:block;
+        height: 14px;
+        left: 0px;
+        position: absolute;
+        top: 6px;
+        width: 14px;
+    }
 
-	&.isAllSelected {
-		background-color: @color-themePrimary;
-		left: -2px;
+    &.isAllSelected {
+        background-color: @color-themePrimary;
+        left: -2px;
 
-      // Hide the checkbox.
-      &:before {
-        display: none;
-      }
+        // Hide the checkbox.
+        &:before {
+            display: none;
+        }
 
-      // But show the mark.
-      &:after {
-        content: '\e041';
-        color: @color-white;
-        font-size: 12px;
-        position: absolute; 
-        left: 4px;
-        top: 9px;
-      }
-	}
+        // But show the mark.
+        &:after {
+            content: '\e041';
+            color: @color-white;
+            font-size: 12px;
+            position: absolute;
+            left: 4px;
+            top: 9px;
+        }
+    }
 }
 
 .DetailHeader-rowCheck:not(.isAllSelected):hover:after {
-	content: '\e041';
-	color: @color-neutralLight;
-	font-size: 12px;
-	position: absolute; 
-	left: 2px;
-	top: 9px;
+    content: '\e041';
+    color: @color-neutralLight;
+    font-size: 12px;
+    position: absolute;
+    left: 2px;
+    top: 9px;
 }
-

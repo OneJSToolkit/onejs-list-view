@@ -9,10 +9,10 @@ class DetailLayout extends BaseLayout {
 
     _columns: List<IColumnDefinition>;
 
-	constructor(columns?: List<IColumnDefinition>) {
-		super();
+    constructor(columns?: List<IColumnDefinition>) {
+        super();
         this._columns = columns || new List<IColumnDefinition>();
-	}
+    }
 
     getHeaderLayout(firstItem): ICellDefinition {
         if (firstItem && this._columns.getCount() === 0) {
@@ -65,7 +65,7 @@ class DetailLayout extends BaseLayout {
                     isVisible: true,
                     isSorted: false,
                     isAscending: false
-                });                
+                });
             }
         }
 
@@ -76,4 +76,3 @@ class DetailLayout extends BaseLayout {
 }
 
 export = DetailLayout;
-

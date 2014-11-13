@@ -9,26 +9,26 @@ class DetailRowModel extends ViewModel {
 
     item;
     columns;
- 
-	getClass(column) {
-		var className = 'DetailRow-cell ' + column.key;
 
-		return className;
-	}
+    getClass(column) {
+        var className = 'DetailRow-cell ' + column.key;
 
-	getStyle(column) {
-		return 'width: ' + column.width + 'px';
-	}
+        return className;
+    }
 
-	getTextValue(column) {
-		var val = '';
+    getStyle(column) {
+        return 'width: ' + column.width + 'px';
+    }
 
-		if (this.item && column) {
-			val = this.item[column.key];
-		}
+    getTextValue(column) {
+        var val = '';
 
-		return val;
-	}
+        if (this.item && column) {
+            val = this.item[column.key];
+        }
+
+        return val;
+    }
 
 }
 

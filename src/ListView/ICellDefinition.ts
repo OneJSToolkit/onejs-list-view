@@ -1,13 +1,13 @@
 interface ICellDefinition {
-	key: string;
-	
-	viewType: any;
-	viewData: any;
+    key: string;
 
-	width: number;
-	height: number;	
+    viewType: any;
+    viewData: any;
 
-	lineBreak?: boolean;
+    width: number;
+    height: number;
+
+    lineBreak?: boolean;
 }
 
 export = ICellDefinition;

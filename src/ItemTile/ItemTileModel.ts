@@ -1,17 +1,17 @@
 import ViewModel = require('../onejs/ViewModel');
 
 class ItemTileModel extends ViewModel {
-	selection: Selection;
+    selection: Selection;
 
-	name = "foo";
+    name = "foo";
 
-	onInitialize() {
-		// this.selection = this.getParentValue('selection');
-	}
+    onInitialize() {
+        // this.selection = this.getParentValue('selection');
+    }
 
-	hasNameplate() {
-		return true;
-	}
+    hasNameplate() {
+        return true;
+    }
 }
 
 export = ItemTileModel;

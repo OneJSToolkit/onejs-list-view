@@ -31,7 +31,7 @@ class FadeImage extends View {
                 this._cancelCurrentLoad();
                 this._currentUrl = url;
                 this._loadImage(url);
-            }            
+            }
         }
     }
 
