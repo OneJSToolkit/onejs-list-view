@@ -287,8 +287,6 @@ class ListView extends View {
 
         if (this._viewportElement !== document.body) {
             var bounds = this._viewportElement.getBoundingClientRect();
-
-            viewportSize.width = bounds.width;
             viewportSize.height = bounds.height;
         }
 

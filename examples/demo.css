@@ -8,6 +8,16 @@ html, body {
     min-height: 1px;
 }
 
+.fixed-size-container {
+    max-width: 800px;
+}
+
+.viewSurface {
+    height: 600px;
+    padding: 40px;
+    overflow: auto;
+}
+
 #content-full {
     margin: 0 20px;
 }
