@@ -12,6 +12,7 @@ var csstojs = require('gulp-csstojs');
 var filter = require('gulp-filter');
 var size = require('gulp-size');
 var mergeStream = require('merge-stream');
+var karma = require('karma').server;
 
 var paths = {
     tempPath: 'tmp',
@@ -121,8 +122,17 @@ gulp.task('copy-static-files', ['clean', 'tsc'], function() {
         .pipe(gulp.dest(paths.appMinPath));
 });
 
-gulp.task('default', ['example-compile',
-                      'tsc',
-                      'minify',
-                      'copy-static-files',
-                      'copy-examples-static-files']);
+gulp.task('build', ['example-compile',
+                    'tsc',
+                    'minify',
+                    'copy-static-files',
+                    'copy-examples-static-files']);
+
+gulp.task('test', ['build'], function (done) {
+  karma.start({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done);
+});
+
+gulp.task('default', ['build', 'test']);
