@@ -38,10 +38,10 @@ gulp.task('copy-deps', ['clean'], function() {
 
         stream.add(
             gulp.src('node_modules/' + dep + '/dist/amd/*')
-            .pipe(gulp.dest(paths.tempPath + '/ts/' + dep))
-            .pipe(gulp.dest(paths.tempPath + '/example/' + dep))
-            .pipe(gulp.dest(paths.examplePath + '/' + dep))
-            .pipe(gulp.dest(paths.appPath + '/' + dep))
+                .pipe(gulp.dest(paths.tempPath + '/ts/' + dep))
+                .pipe(gulp.dest(paths.tempPath + '/example/' + dep))
+                .pipe(gulp.dest(paths.examplePath + '/' + dep))
+                .pipe(gulp.dest(paths.appPath + '/' + dep))
         );
     }
 
@@ -94,7 +94,7 @@ gulp.task('example-preprocess', ['copy-deps'], function() {
 gulp.task('example-compile', ['example-preprocess'], function() {
     return gulp.src(paths.tempPath + '/example/**/*.ts')
         .pipe(tsc({
-	    target: 'ES5',
+            target: 'ES5',
             module: 'amd'
         }))
         .pipe(gulp.dest(paths.examplePath));
@@ -121,6 +121,8 @@ gulp.task('copy-static-files', ['clean', 'tsc'], function() {
         .pipe(gulp.dest(paths.appMinPath));
 });
 
-gulp.task('examples', ['example-compile', 'copy-examples-static-files']);
-
-gulp.task('default', ['tsc', 'minify', 'copy-static-files']);
+gulp.task('default', ['example-compile',
+                      'tsc',
+                      'minify',
+                      'copy-static-files',
+                      'copy-examples-static-files']);
