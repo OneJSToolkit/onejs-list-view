@@ -51,7 +51,7 @@ class ListView extends View {
     onActivate() {
         this._findElements();
 
-        var scrollElement = this._viewportElement == document.body ? < any > window : this._viewportElement;
+        var scrollElement = this._viewportElement == document.body ? <any> window : this._viewportElement;
 
         this.activeEvents.on(scrollElement, 'scroll', this._onScroll);
         this.activeEvents.on(this._viewportElement, 'touchmove', this._onScroll);
@@ -93,7 +93,7 @@ class ListView extends View {
         while (viewportElement &&
                viewportElement !== document.body &&
                viewportElement.className !== viewModel.viewportClass) {
-            viewportElement = < HTMLElement > viewportElement.parentNode;
+            viewportElement = <HTMLElement> viewportElement.parentNode;
 
             if (!viewportElement.style || !viewportElement.tagName) {
                 viewportElement = document.body;
@@ -240,7 +240,7 @@ class ListView extends View {
             var repeater = this._rowRepeaters[rowIndex];
 
             if (!repeater) {
-                var repeater = this._rowRepeaters[rowIndex] = < Repeater > this.addChild(new Repeater(), this);
+                var repeater = this._rowRepeaters[rowIndex] = <Repeater> this.addChild(new Repeater(), this);
 
                 console.log('rendering row' + rowIndex);
 
