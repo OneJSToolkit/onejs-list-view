@@ -1,10 +1,10 @@
 import ViewModel = require('../onejs/ViewModel');
 import List = require('../onejs/List');
-import GridLayout = require('./GridLayout');
+import DetailLayout = require('./DetailLayout');
 
 class ListViewModel extends ViewModel {
     viewportClass = 'listview-viewport';
-    layout = new GridLayout();
+    layout = new DetailLayout();
     items = new List();
 }
 
