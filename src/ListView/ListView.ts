@@ -43,8 +43,8 @@ class ListView extends View {
     _removeOffscreensImmediately = false;
 
     onRender() {
-        return (this.element = DomUtils.ce('div', ['class', 'ListView'], [
-            this._surfaceElement = DomUtils.ce('div', ['class', 'ListView-surface'])
+        return (this.element = DomUtils.ce('div', {'class': 'ListView'}, [
+            this._surfaceElement = DomUtils.ce('div', {'class': 'ListView-surface'})
         ]));
     }
 

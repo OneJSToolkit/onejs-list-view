@@ -16,7 +16,7 @@ class ListViewCell extends View {
     onRender() {
         var children = this.viewInstance ? [ this.viewInstance.render() ] : null;
 
-        this.element = DomUtils.ce('div', ['class', 'ListView-cell'], children);
+        this.element = DomUtils.ce('div', {'class': 'ListView-cell'}, children);
 
         this.update();
 

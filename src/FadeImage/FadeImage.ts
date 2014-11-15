@@ -14,7 +14,9 @@ class FadeImage extends View {
     _currentPromise: Promise;
 
     onRender() {
-        this.element = DomUtils.ce('div', ['class', 'FadeImage ' + (this.getValue('class') || '')]);
+        this.element = DomUtils.ce('div', {
+            'class': 'FadeImage ' + (this.getValue('class') || '')
+        });
 
         return this.element;
     }
@@ -67,7 +69,10 @@ class FadeImage extends View {
     }
 
     _createImage(url, isFromCache?: boolean) {
-        var image = DomUtils.ce('div', ['class', 'FadeImage-image' + (isFromCache ? ' isLoaded' : ''), 'style', 'background-image: url(\'' + url + '\')']);
+        var image = DomUtils.ce('div', {
+            'class': 'FadeImage-image' + (isFromCache ? ' isLoaded' : ''),
+            'style': 'background-image: url(\'' + url + '\')'
+        });
 
         this.element.appendChild(image);
 
