@@ -4,7 +4,7 @@
      js-css="DetailHeader.css">
 
   <js-repeat source="columns" iterator="column">
-    <span js-bind="text:column.title,class:getClass(column),style:getStyle(column)"></span>
+    <span js-bind="text:column.title,class:getClass(column),style:getStyle(column)" js-event="click:sort(column)"></span>
   </js-repeat>
 
 </div>

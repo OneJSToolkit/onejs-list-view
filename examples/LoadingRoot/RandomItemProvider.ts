@@ -7,7 +7,7 @@ import RandomItem = require('./RandomItem');
 var CHANGE_EVENT ='change';
 
 class RandomItemProvider implements IItemProvider {
-    items: List<IItem>;
+    items: List<RandomItem>;
     _i: number;
     _pseudoAsyncRequestCount = 0;
     events = new EventGroup(this);
@@ -24,6 +24,22 @@ class RandomItemProvider implements IItemProvider {
 
     log(msg: string) {
         console.log('[RandomItemProvider] ' + msg);
+    }
+
+    sortBar(ascending) {
+        this.items.array.sort((a,b) => { return a.bar - b.bar; });
+        if(!ascending) {
+            this.items.array.reverse();
+        }
+        this.fireChange();
+    }
+
+    sortFoo(ascending) {
+        this.items.array.sort((a,b) => { return a.foo.localeCompare(b.foo); });
+        if(!ascending) {
+            this.items.array.reverse();
+        }
+        this.fireChange();
     }
 
     loadNextBatch() {
@@ -44,7 +60,7 @@ class RandomItemProvider implements IItemProvider {
                 this.items.push(new RandomItem(i));
             }
             this.log('now have ' + this.items.getCount() + ' items.');
-        }, Math.random() * 3000);
+        }, Math.random() * 500);
     }
 
     isLoadingItems(): boolean {
