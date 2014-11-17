@@ -62,6 +62,8 @@ class ListViewCell extends View {
             this.element.className = 'ListView-cell ' + (viewModel.className || '');
             elStyle.width = viewModel.width + 'px';
             elStyle.height = viewModel.height + 'px';
+
+            this.element['data-item-key'] = viewModel.key;
         }
     }
 

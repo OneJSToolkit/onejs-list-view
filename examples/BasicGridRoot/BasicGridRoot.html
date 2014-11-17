@@ -1,8 +1,20 @@
 <js-view js-type="BasicGridRoot" js-model="BasicGridRootModel" js-css="BasicGridRoot.css">
   <div class="c-BasicGridRoot">
     <h1>ListView: Grid Example</h1>
+
+      <list-view js-data="{ items: items, viewportClass: 'viewSurface' }">
+      </list-view>
+      <list-view js-data="{ items: items2, viewportClass: 'viewSurface' }">
+      </list-view>
+
+
     <div class="viewSurface">
-      <list-view js-data="{ itemProvider: itemProvider, layout: layout, viewportClass: 'viewSurface' }">
+      <list-view js-data="{ itemProvider: itemProvider, layout: layout, viewportClass: 'viewSurface' }" js-event="click: bar">
+      </list-view>
+    </div>
+
+    <div class="viewSurface">
+      <list-view js-data="{ itemProvider: itemProvider2, viewportClass: 'viewSurface' }" js-event="click: foo">
       </list-view>
     </div>
 
