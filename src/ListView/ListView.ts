@@ -139,7 +139,6 @@ class ListView extends View {
                 layout.update(items, this._viewportSize);
             }
 
-            this._surfaceElement.style.width = layout.size.width + 'px';
             this._surfaceElement.style.height = layout.size.height + 'px';
             var renderResult = this._renderVisibles(layout.rows,
                                                     this._viewportSize);
